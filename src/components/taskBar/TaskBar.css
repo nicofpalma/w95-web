@@ -1,0 +1,36 @@
+footer{
+    z-index: 999;
+}
+
+.tasks-container{
+    position: relative;
+    display: inline-flex;
+    gap: 10px;
+    user-select: none;
+    height: 90%;   
+}
+
+.start-btn{
+    background-color: var(--main-grey-color);
+    position: relative;
+    height: 93%;
+    width: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 3px;
+    gap: 3px;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--taskbar-box-outer-shadow); 
+}
+
+.start-btn::after{
+    content: "Start";
+    font-family: 'Windows Regular';
+    letter-spacing: 1px;
+    color:black;
+    font-weight: 700;
+}
+
+.start-btn:active{
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2); 
+}

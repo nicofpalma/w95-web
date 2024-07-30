@@ -1,0 +1,56 @@
+#console-input-span {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.console-input {
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font-family: 'DOS VGA';
+    font-size: 18px;
+    letter-spacing: 1px;
+    caret-color: transparent;
+    width: 80%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.console-input:focus,
+.console-input:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.blink-caret {
+    position: absolute;
+    color: white;
+    animation: blink 1s step-start infinite;
+    pointer-events: none;
+}
+
+.text-render {
+    visibility: hidden;
+    white-space: pre;
+    font-family: 'DOS VGA';
+    font-size: 18px;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.console-text{
+    display: grid;
+    gap: 10px;
+    font-size: 16px;
+}

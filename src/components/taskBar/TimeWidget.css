@@ -1,0 +1,23 @@
+.time-widget{
+    right: 3px;
+    background-color: var(--main-grey-color);
+    position: relative;
+    height: 80%;
+    width: 110px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2); 
+    user-select: none;
+    margin-bottom: 1px;
+}
+
+.time-widget p{
+    font-family: 'Windows Regular';
+    letter-spacing: 1px;
+    color:black;
+    margin: 2px;
+    margin-right: 12px;
+    margin-left: 5px;
+}

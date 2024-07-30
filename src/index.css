@@ -1,0 +1,80 @@
+@font-face {
+  src: url(./fonts/WindowsRegular.ttf) format("truetype");
+  font-family: "Windows Regular";
+}
+
+@font-face {
+  font-family: "MS Sans Serif";
+  src: url(./fonts/MS-Sans-Serif.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "DOS VGA";
+  src: url(./fonts/MorePerfectDOSVGA.ttf) format("truetype");
+}
+
+:root {
+  --main-grey-color: #c0c1c1;
+  --win95-backround-color: #008080;
+  --win95-blue-color: #010180;
+  --btn-box-inner-shadow1: inset -1px -1px  #7f7f7f;
+  --btn-box-inner-shadow2: inset 1px 1px 1px #ffffff;
+  --btn-box-outer-shadow: 0.5px 0.5px 0.5px  rgba(0,0,0,0.7);
+
+  --taskbar-box-outer-shadow: 1.2px 1.2px 0px  rgba(0,0,0,1);
+
+  --btn-inverted-box-inner-shadow1: inset 1.5px 1.5px 0 #7f7f7f;
+  --btn-inverted-box-inner-shadow2: inset -1.5px -1.5px 1.5px #ffffff;
+
+  --background-selected-item: radial-gradient(rgb(192, 193, 193) 41.6%, transparent 62.8%), radial-gradient(rgb(192, 193, 193) 41.6%, transparent 62.8%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Courier New', Courier, monospace; 
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--win95-backround-color); /* Fondo verde azulado */
+}
+
+footer {
+  background-color: var(--main-grey-color);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  color: white;
+  text-align: center;
+  border-top: 2px solid white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.desktop-icon-container{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: grid;
+  margin-top: 0;
+  max-height: calc(100% - 30px); 
+  grid-template-rows: repeat(auto-fill, 87px); 
+  grid-auto-flow: column;
+  grid-auto-rows: 100px; 
+  gap: 0px; 
+  justify-content: start;
+  user-select: none;
+}
+
+

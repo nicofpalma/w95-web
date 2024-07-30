@@ -1,0 +1,150 @@
+.minimizing {
+    animation: minimize 0.3s ease-in-out forwards;
+}
+
+@keyframes minimize {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(var(--minimize-x), var(--minimize-y)) scale(0.2);
+    }
+}
+
+.openWindow-header.minimizing{
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.openWindow-body.minimizing{
+    transform: opacity 0.3s;
+}
+
+
+.openWindow {
+    position: absolute;
+    width: 50%;
+    height: 60%; 
+    min-width: 50%;
+    max-width: 100%;
+
+    min-height: 10%;
+    max-height: 100%;
+
+    margin: 20px;
+    background-color: #000; 
+    color: #fff; 
+    overflow:hidden; 
+    outline: 1px outset white; 
+    outline-offset: .3px;
+    box-shadow: 0px 0px 0px 3px  var(--main-grey-color), 2px 2px 0px 1.3px rgba(0,0,0, 1);
+    resize: both;
+    z-index: 1;
+
+    /* Font of console */
+    font-family: 'DOS VGA';
+    letter-spacing: 1px;
+}
+
+.openWindow.focused {
+    z-index: 2;
+}
+
+@media screen and (max-width: 800px) {
+    .openWindow{
+        width: 90%;
+    }
+}
+
+.openWindow-header {
+    background-color: var(--win95-blue-color); 
+    color: #ffffff; 
+    padding: 1px; 
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-top: 2px solid var(--main-grey-color);
+    border-left: 2px solid var(--main-grey-color);
+    border-right: 2px solid var(--main-grey-color);
+    border-bottom: 3px ridge white;
+    z-index: 1;
+    justify-content: space-between;
+}
+
+.openWindow-header p {
+    margin: 0; 
+    font-weight: 700;
+    font-family: "Windows Regular";
+    letter-spacing: 1.3px;
+}
+
+.openWindow-title-logo{
+    display: inline-flex;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    width: 150px;
+    font-size: 14px;
+}
+
+.openWindow-header-btns{
+
+    justify-content: flex-end;
+    align-items: center;
+
+    display: flex;
+    gap: 1px;
+}
+
+.openWindow-btn, .openWindow-btn#close{
+    background-color: var(--main-grey-color);
+    position: relative;
+    height: 14px;
+    width: 17px;
+    top: 0;
+    right: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 23px;
+    font-weight: 700;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow); 
+}
+
+.openWindow-btn#close::after{
+    content: "\d7";
+    color: black;
+    font-family: 'Windows Regular';
+    font-size: 20px;
+}
+
+.openWindow-btn:active ,.openWindow-btn#close:active{
+    box-shadow:  var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
+}
+
+.openWindow-btn:last-child{
+    margin-left: 2px;
+}
+
+.openWindow-maximize-icon{
+    height: 70%;
+    width: 60%;
+    border: 1.5px solid black;
+    border-top: 3px solid black;
+}
+
+.openWindow-minimize-icon{
+    height: 65%;
+    width: 45%;
+    border-bottom: 3.5px solid black;
+}
+
+.openWindow-body {
+    padding: 10px; 
+}
+
+.openWindow-body p {
+    margin: 0; 
+}

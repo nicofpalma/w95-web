@@ -1,0 +1,29 @@
+.desktop-file{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    left: 2px;
+    text-align: center;
+    margin-left: 5px;
+    
+}
+
+.icon-program-name {
+    font-family: 'Windows Regular';
+    color: white;
+    width: 50px;
+    margin: 0;
+    font-size: 13px;
+}
+
+.desktop-file.icon-clicked p{
+    background-color: var(--win95-blue-color);
+    border: 1px dotted white;
+}
+
+.desktop-icon-image-container.icon-clicked{
+    filter: invert(13%) sepia(80%) saturate(3201%) hue-rotate(237deg) brightness(79%) contrast(137%);
+}
+

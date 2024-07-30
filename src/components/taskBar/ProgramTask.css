@@ -1,0 +1,38 @@
+.program-task{
+    background-color: var(--main-grey-color);
+    position: relative;
+    height: 93%;
+    width: 200px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    box-shadow: inset 1.5px 1.5px 1.5px #000000, var(--btn-inverted-box-inner-shadow2); 
+    margin-right: 0px;
+    
+    background-image: var(--background-selected-item);
+    background-position: 0px 0px, 2px 2px;
+    background-size: 4px 4px;
+    background-color: rgb(255, 255, 255);
+
+    font-family: 'Windows Regular';
+    letter-spacing: 1px;
+    color:black;
+    font-weight: bold;
+}
+
+.program-task.minimized{
+    box-shadow: var( --btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--taskbar-box-outer-shadow);
+    background-image: none;
+    background-color: var(--main-grey-color);
+}
+
+/* NO FUNCIONA */
+.program-task:active{
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
+}
+
+/* NO FUNCIONA */
+
+.program-task-icon{
+    margin-left: 8px;
+}
