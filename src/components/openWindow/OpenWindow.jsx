@@ -14,7 +14,8 @@ export function OpenWindow({
 }){
 
     const openWindowRef = useRef(null);
-    const [isMinimizing, setIsMinimizing] = useState(false);
+    const headerRef = useRef(null);
+    //const [isMaximizing, setIsMaximizing] = useState(false);
     const [offset, setOffset] = useState([0, 0]);
     const [isDown, setIsDown] = useState(false);
 
@@ -49,23 +50,13 @@ export function OpenWindow({
     }, [isDown, offset]);
 
 
-    useEffect(() => {
-        if (isMinimizing) {
-          const timer = setTimeout(() => {
-            setIsMinimizing(false);
-            onMinimize(id);
-          }, 300);
-          return () => clearTimeout(timer);
-        }
-    }, [isMinimizing, onMinimize, id]);
-
-
     const handleMouseDown = (e) => {
         const rect = openWindowRef.current.getBoundingClientRect();
         setIsDown(true);
         setOffset([rect.left - e.clientX, rect.top - e.clientY]);
     }
 
+    // Prevents moving the window when touching on header buttons
     const handleStopMouseDown = (e) => {
         e.stopPropagation();
     }
@@ -89,24 +80,45 @@ export function OpenWindow({
             style={displayStyle}
             data-id={id}
         >
-            <div className="openWindow-header" onMouseDown={handleMouseDown}>
+            <div 
+                className={`openWindow-header`} 
+                onMouseDown={handleMouseDown}
+                ref={headerRef}
+            >
                 <div className="openWindow-title-logo">
                     <img src={`src/assets/${imgSrc}`} alt="" height={imgHeight} />
                     <p>{windowName}</p>
                 </div>
             
                 <div className="openWindow-header-btns">
-                    <div className="openWindow-btn" title="Minimize" onMouseDown={handleStopMouseDown} onClick={onMinimize}>
+                    <div 
+                        className="openWindow-btn" 
+                        title="Minimize" 
+                        onMouseDown={handleStopMouseDown} 
+                        onClick={onMinimize}
+                    >
                         <div className='openWindow-minimize-icon' id="minimize"></div>
                     </div>
-                    <div className="openWindow-btn" title="Maximize" onMouseDown={handleStopMouseDown} onClick={handleMaximize}>
+                    <div 
+                        className="openWindow-btn" 
+                        title="Maximize" 
+                        onMouseDown={handleStopMouseDown} 
+                        onClick={handleMaximize}
+                    >
                         <div className='openWindow-maximize-icon' id="maximize"></div>
                     </div>
-                    <div className="openWindow-btn" id="close" onMouseDown={handleStopMouseDown} onClick={onClose}></div>
+                    <div 
+                        className="openWindow-btn" 
+                        id="close" 
+                        onMouseDown={handleStopMouseDown} 
+                        onClick={onClose}
+                    ></div>
                 </div>
             </div>
 
-            <div className="openWindow-body">
+
+
+            <div className={`openWindow-body`}>
                 {children}
             </div>
         </div>

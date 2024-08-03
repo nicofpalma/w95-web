@@ -84,30 +84,90 @@ function App() {
     ));
   }
 
+  const toggleHeaderButtons = (windowId, disabled) => {
+    const windowElement = document.querySelector(`.openWindow[data-id="${windowId}"]`);
+    const buttons = windowElement.querySelectorAll('.openWindow-btn');
+    buttons.forEach(button => button.style.pointerEvents = disabled ? 'none' : 'auto');
+  }
+
   const handleMinimize = (windowId) => {
+    // Disable window buttons
+    toggleHeaderButtons(windowId, true);
+
     const windowElement = document.querySelector(`.openWindow[data-id="${windowId}"]`);
     const headerElement = windowElement.querySelector('.openWindow-header');
     const bodyElement = windowElement.querySelector('.openWindow-body');
-    const taskbarElement = document.querySelector(`.program-task[data-id="${windowId}"]`);
+    const programTaskElement = document.querySelector(`.program-task[data-id="${windowId}"]`);
+
+    // Crear un clon del header
+    const headerClone = headerElement.cloneNode(true);
+    headerClone.classList.add('header-clone');
+    windowElement.appendChild(headerClone);
 
     const headerRect = headerElement.getBoundingClientRect();
-    const taskbarRect = taskbarElement.getBoundingClientRect();
+    const programTaskRect = programTaskElement.getBoundingClientRect();
 
-    const translateX = taskbarRect.left - headerRect.left;
-    const translateY = taskbarRect.top - headerRect.top;
+    // Calcular la posición final para la animación
+    const headerCenterX = headerRect.left + headerRect.width / 2;
+    const headerCenterY = headerRect.top + headerRect.height / 2;
+    const programTaskCenterX = programTaskRect.left + programTaskRect.width / 2;
+    const programTaskCenterY = programTaskRect.top + programTaskRect.height / 2;
+    const translateX = programTaskCenterX - headerCenterX;
+    const translateY = programTaskCenterY - headerCenterY;
 
-    headerElement.style.setProperty('--minimize-x', `${translateX}px`);
-    headerElement.style.setProperty('--minimize-y', `${translateY}px`);
+    headerClone.style.setProperty('--minimize-x', `${translateX}px`);
+    headerClone.style.setProperty('--minimize-y', `${translateY}px`);
 
-    headerElement.classList.add('minimizing');
+    headerClone.classList.add('minimizing');
     bodyElement.classList.add('minimizing');
 
     setTimeout(() => {
         updateWindow(windowId, {isMinimized: true}, false);
         updateTask(windowId, {isMinimized: true});
-        headerElement.classList.remove('minimizing');
+        headerClone.remove(); 
         bodyElement.classList.remove('minimizing');
-    }, 300);
+
+        // Toggle window buttons
+        toggleHeaderButtons(windowId, false);
+    }, 400);
+  }
+
+  const handleMaximize = (windowId) => {
+    toggleHeaderButtons(windowId, true);
+
+    const windowElement = document.querySelector(`.openWindow[data-id="${windowId}"]`);
+    const headerElement = windowElement.querySelector('.openWindow-header');
+    const bodyElement = windowElement.querySelector('.openWindow-body');
+    const programTaskElement = document.querySelector(`.program-task[data-id="${windowId}"]`);
+
+    // Crear un clon del header
+    const headerClone = headerElement.cloneNode(true);
+    headerClone.classList.add('header-clone');
+    windowElement.appendChild(headerClone);
+
+    const headerRect = headerElement.getBoundingClientRect();
+    const programTaskRect = programTaskElement.getBoundingClientRect();
+
+    const headerCenterX = headerRect.left + headerRect.width / 2;
+    const headerCenterY = headerRect.top + headerRect.height / 2;
+    const programTaskCenterX = programTaskRect.left + programTaskRect.width / 2;
+    const programTaskCenterY = programTaskRect.top + programTaskRect.height / 2;
+    const translateX = headerCenterX - programTaskCenterX;
+    const translateY = headerCenterY - programTaskCenterY;
+
+    headerClone.style.setProperty('--maximize-x', `${translateX}px`);
+    headerClone.style.setProperty('--maximize-y', `${translateY}px`);
+
+    headerClone.classList.add('maximizing');
+    bodyElement.classList.add('maximizing');
+
+    setTimeout(() => {
+        updateWindow(windowId, {isMinimized: false}, true);
+        updateTask(windowId, {isMinimized: false});
+        headerClone.remove();
+        bodyElement.classList.remove('maximizing');
+        toggleHeaderButtons(windowId, false);
+    }, 400);
   }
 
   const handleProgramTaskClick = (programTaskId, minimized) => {
@@ -173,6 +233,7 @@ function App() {
           />
         ))}
       </TaskBar>
+      
     </>
   )
 }
