@@ -1,9 +1,9 @@
 .minimizing {
-    animation: minimize 0.4s steps(15, end) forwards;
+    animation: minimize 0.4s steps(15, end) backwards;
 }
 
 .maximizing {
-    animation: maximize 0.4s steps(15, start) forwards;
+    animation: maximize 0.4s steps(15, start) backwards;
 }
 
 @keyframes minimize {
@@ -33,7 +33,6 @@
 .openWindow-body.minimizing, .openWindow-body{
     transform: opacity 0.4s;
 } */
-
 
 .openWindow {
     position: absolute;

@@ -105,7 +105,15 @@ function App() {
     windowElement.appendChild(headerClone);
 
     const headerRect = headerElement.getBoundingClientRect();
+    sessionStorage.setItem(`headerRect_${windowId}`, JSON.stringify(headerRect));
     const programTaskRect = programTaskElement.getBoundingClientRect();
+
+    console.log({
+      minimizing: {
+        header_rect: headerRect, 
+        program_task_rect: programTaskRect
+      }
+    });
 
     // Calcular la posición final para la animación
     const headerCenterX = headerRect.left + headerRect.width / 2;
@@ -117,6 +125,9 @@ function App() {
 
     headerClone.style.setProperty('--minimize-x', `${translateX}px`);
     headerClone.style.setProperty('--minimize-y', `${translateY}px`);
+
+    console.log({minimize_x: translateX, minimize_y: translateY});
+    
 
     headerClone.classList.add('minimizing');
     bodyElement.classList.add('minimizing');
@@ -140,37 +151,54 @@ function App() {
     const bodyElement = windowElement.querySelector('.openWindow-body');
     const programTaskElement = document.querySelector(`.program-task[data-id="${windowId}"]`);
 
-    // Crear un clon del header
-    const headerClone = headerElement.cloneNode(true);
-    headerClone.classList.add('header-clone');
-    windowElement.appendChild(headerClone);
+    const storedHeaderRect = sessionStorage.getItem(`headerRect_${windowId}`);
+    if(storedHeaderRect){
+      const headerRect = JSON.parse(storedHeaderRect);
+      
+      // Crear un clon del header
+      const headerClone = headerElement.cloneNode(true);
+      headerClone.classList.add('header-clone');
+      windowElement.appendChild(headerClone);
 
-    const headerRect = headerElement.getBoundingClientRect();
-    const programTaskRect = programTaskElement.getBoundingClientRect();
+      const programTaskRect = programTaskElement.getBoundingClientRect();
+      console.log({
+        maximizing: {
+          header_rect: headerRect, 
+          program_task_rect: programTaskRect
+        }
+      });
 
-    const headerCenterX = headerRect.left + headerRect.width / 2;
-    const headerCenterY = headerRect.top + headerRect.height / 2;
-    const programTaskCenterX = programTaskRect.left + programTaskRect.width / 2;
-    const programTaskCenterY = programTaskRect.top + programTaskRect.height / 2;
-    const translateX = headerCenterX - programTaskCenterX;
-    const translateY = headerCenterY - programTaskCenterY;
+      const headerCenterX = headerRect.left + headerRect.width / 2;
+      const headerCenterY = headerRect.top + headerRect.height / 2;
+      const programTaskCenterX = programTaskRect.left + programTaskRect.width / 2;
+      const programTaskCenterY = programTaskRect.top + programTaskRect.height / 2;
+      const translateX = headerCenterX - programTaskCenterX;
+      const translateY = headerCenterY - programTaskCenterY;
 
-    headerClone.style.setProperty('--maximize-x', `${translateX}px`);
-    headerClone.style.setProperty('--maximize-y', `${translateY}px`);
+      headerClone.style.setProperty('--maximize-x', `${-translateX}px`);
+      headerClone.style.setProperty('--maximize-y', `${-translateY}px`);
 
-    headerClone.classList.add('maximizing');
-    bodyElement.classList.add('maximizing');
+      console.log({maximize_x: translateX, maximize_y: translateY});
 
-    setTimeout(() => {
-        updateWindow(windowId, {isMinimized: false}, true);
-        updateTask(windowId, {isMinimized: false});
-        headerClone.remove();
-        bodyElement.classList.remove('maximizing');
-        toggleHeaderButtons(windowId, false);
-    }, 400);
+      headerClone.classList.add('maximizing');
+      bodyElement.classList.add('maximizing');
+
+      setTimeout(() => {
+          headerClone.remove();
+          bodyElement.classList.remove('maximizing');
+          toggleHeaderButtons(windowId, false);
+      }, 400);
+
+      sessionStorage.removeItem(`headerRect_${windowId}`);
+    }
   }
 
   const handleProgramTaskClick = (programTaskId, minimized) => {
+    console.log(minimized);
+    if(!minimized){
+      handleMaximize(programTaskId);
+    }
+    
     updateWindow(programTaskId, {isMinimized: minimized}, true);
     updateTask(programTaskId, {isMinimized: minimized});
   }
