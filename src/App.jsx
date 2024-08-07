@@ -108,7 +108,7 @@ function App() {
     sessionStorage.setItem(`headerRect_${windowId}`, JSON.stringify(headerRect));
     const programTaskRect = programTaskElement.getBoundingClientRect();
 
-    // Calcular la posición final para la animación
+    // Calculate position of the task
     const headerCenterX = headerRect.left + headerRect.width / 2;
     const headerCenterY = headerRect.top + headerRect.height / 2;
     const programTaskCenterX = programTaskRect.left + programTaskRect.width / 2;
@@ -134,7 +134,7 @@ function App() {
   }
 
   const handleMaximize = (windowId) => {
-    updateWindow(windowId, {isMinimized: false}, true);
+    updateWindow(windowId, {isMinimized: false, isResuming: true}, true);
     updateTask(windowId, {isMinimized: false});
     toggleHeaderButtons(windowId, true);
 
@@ -167,7 +167,7 @@ function App() {
       bodyElement.classList.add('maximizing');
 
       setTimeout(() => {
-
+          updateWindow(windowId, {isMinimized: false, isResuming: false}, true);
           headerClone.remove();
           bodyElement.classList.remove('maximizing');
           toggleHeaderButtons(windowId, false);
@@ -223,6 +223,7 @@ function App() {
             windowName={window.windowName}
             isFocused={window.id === focusedWindowId}
             isMinimized={window.isMinimized}
+            isResuming={window.isResuming}
             onMinimize={() => handleMinimize(window.id)}
             onClose={() => handleCloseWindow(window.id)}
           >

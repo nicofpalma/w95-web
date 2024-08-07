@@ -7,6 +7,7 @@ export function OpenWindow({
     windowName, 
     isFocused, 
     isMinimized, 
+    isResuming,
     onMinimize, 
     onClose, 
     id, 
@@ -69,13 +70,20 @@ export function OpenWindow({
         openWindowRef.current.style.left = '7px';
     }
 
+    const handleMinimize = () => {
+        openWindowRef.current.classList.add('minimizing');
+        onMinimize();
+    }
+
     const displayStyle = {
         display: isMinimized ? 'none' : 'block'
     };
+    console.log(isResuming);
+    
 
     return (
         <div 
-            className={`openWindow ${isFocused ? 'focused' : ''}`} 
+            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''}`} 
             ref={openWindowRef}
             style={displayStyle}
             data-id={id}
@@ -95,7 +103,7 @@ export function OpenWindow({
                         className="openWindow-btn" 
                         title="Minimize" 
                         onMouseDown={handleStopMouseDown} 
-                        onClick={onMinimize}
+                        onClick={handleMinimize}
                     >
                         <div className='openWindow-minimize-icon' id="minimize"></div>
                     </div>
