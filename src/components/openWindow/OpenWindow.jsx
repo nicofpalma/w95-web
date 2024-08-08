@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import './OpenWindow.css';
 
-export function OpenWindow({
+export default function OpenWindow({
     imgSrc, 
     imgHeight, 
     windowName, 
     isFocused, 
     isMinimized, 
+    isMinimizing,
     isResuming,
     onMinimize, 
     onClose, 
+    onFocus,
     id, 
     children
 }){
@@ -25,14 +27,8 @@ export function OpenWindow({
             if(isDown){
                 const newLeft = event.clientX + offset[0];
                 const newTop = event.clientY + offset[1];
-
-                const minX = 0;
-                const maxX = window.innerWidth - openWindowRef.current.offsetWidth;
-                const minY = 0;
-                const maxY = window.innerHeight - openWindowRef.current.offsetHeight;
-
-                openWindowRef.current.style.left = `${Math.max(minX, Math.min(newLeft, maxX))}px`;
-                openWindowRef.current.style.top = `${Math.max(minY, Math.min(newTop, maxY))}px`;
+                openWindowRef.current.style.left = `${newLeft}px`;
+                openWindowRef.current.style.top = `${newTop}px`;
             }
         }
 
@@ -49,7 +45,6 @@ export function OpenWindow({
         }
 
     }, [isDown, offset]);
-
 
     const handleMouseDown = (e) => {
         const rect = openWindowRef.current.getBoundingClientRect();
@@ -76,19 +71,20 @@ export function OpenWindow({
     }
 
     const displayStyle = {
-        display: isMinimized ? 'none' : 'block'
+        display: isMinimized ? 'none' : 'flex'
     };
     console.log(isResuming);
     
 
     return (
-        <div 
-            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''}`} 
+        <article 
+            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''} ${isMinimizing ? 'minimizing' : ''}`} 
             ref={openWindowRef}
             style={displayStyle}
             data-id={id}
+            onClick={onFocus}
         >
-            <div 
+            <header 
                 className={`openWindow-header`} 
                 onMouseDown={handleMouseDown}
                 ref={headerRef}
@@ -122,13 +118,14 @@ export function OpenWindow({
                         onClick={onClose}
                     ></div>
                 </div>
-            </div>
+            </header>
 
 
-
-            <div className={`openWindow-body`}>
-                {children}
-            </div>
-        </div>
+            <main className="openWindow-content">
+                <div className={`openWindow-body`}>
+                    {children}
+                </div>
+            </main>
+        </article>
     )
 }

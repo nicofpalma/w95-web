@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./MSDOSConsole.css";
 
-export function MSDOSConsole(){
+export default function MSDOSConsole(){
 
     const inputRef = useRef(null);
     const inputSpanRef = useRef(null);
@@ -104,7 +104,7 @@ export function MSDOSConsole(){
     }
 
     return (
-        <>
+        <div className="console-container">
             <div className="console-text" >
                 {consoleContent.map((content, index) => (
                     <p key={index}>{content}</p>
@@ -113,9 +113,15 @@ export function MSDOSConsole(){
             <span id="console-input-span" ref={inputSpanRef}>
                 <label htmlFor="console-input" className="console-label" ref={labelInputRef}>{"C:\\WINDOWS>"}</label>
                 <span className="text-render" id="text-render" ref={textRenderRef}></span>
-                <input type="text" className="console-input" id="console-input" autoComplete="off" ref={inputRef}/>
+                <input 
+                    type="text" 
+                    className="console-input" 
+                    id="console-input" 
+                    autoComplete="off" 
+                    ref={inputRef}
+                />
                 <span className="blink-caret" id="blink-caret" ref={caret}>_</span>
             </span>
-        </>
+        </div>
     );
 }

@@ -1,7 +1,7 @@
 import './TaskBar.css';
 import { TimeWidget } from './TimeWidget';
 
-export function TaskBar({children}){
+export default function TaskBar({children}){
 
     return (
         <footer>

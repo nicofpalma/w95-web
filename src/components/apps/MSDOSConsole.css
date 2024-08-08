@@ -1,5 +1,9 @@
+.console-container{
+    margin-left: 10px;
+}
+
 #console-input-span {
-    position: relative;
+    position: sticky;
     display: block;
     margin-top: 10px;
 }
@@ -53,5 +57,5 @@
     display: grid;
     gap: 10px;
     font-size: 16px;
-    margin-top: 30px;
+    margin-top: 10px;
 }

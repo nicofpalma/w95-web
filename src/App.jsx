@@ -1,13 +1,17 @@
 import './App.css';
-import { MSDOSConsole } from './components/apps/MSDOSConsole.jsx';
-import { OpenWindow } from './components/openWindow/OpenWindow.jsx';
-import { TaskBar } from './components/taskBar/TaskBar.jsx';
-import { ProgramTask } from './components/taskBar/ProgramTask.jsx';
-import { DesktopIcon } from './components/desktopIcon/DesktopIcon.jsx';
+import './scrollbar.css';
+
+import MSDOSConsole from './components/apps/MSDOSConsole.jsx';
+import Notepad from './components/apps/Notepad.jsx';
+import OpenWindow from './components/openWindow/OpenWindow.jsx';
+import TaskBar from './components/taskBar/TaskBar.jsx';
+import ProgramTask  from './components/taskBar/ProgramTask.jsx';
+import DesktopIcon from './components/desktopIcon/DesktopIcon.jsx';
 import { useState } from 'react';
 
 const componentMap = {
   MSDOSConsole,
+  Notepad
 };
 
 function App() {
@@ -19,6 +23,7 @@ function App() {
   // Add the program icons to the desktop
   const icons = [
     { imgSrc: 'msdos.png', imgHeight: '32px', programName: 'MS-DOS Prompt', elementAssoc: 'MSDOSConsole'},
+    { imgSrc: 'notepad1.png', imgProgram: 'notepad2.png', imgHeight: '32px', programName: 'Notepad', savedName: 'hello.txt',  elementAssoc: 'Notepad'}
   ];
 
   const handleIconClick = (index) => {
@@ -48,9 +53,9 @@ function App() {
 
       const newWindow = {
         id: openWindows.length,
-        imgSrc: icons[index].imgSrc,
+        imgSrc: icons[index].imgProgram ? icons[index].imgProgram : icons[index].imgSrc,
         imgHeight: "15px",
-        windowName: icons[index].programName,
+        windowName: icons[index].savedName ? `${icons[index].savedName} - ${icons[index].programName}` : icons[index].programName,
         content: ComponentToRender ? <ComponentToRender /> : null,
         isMinimized: false
       };
@@ -93,6 +98,7 @@ function App() {
   const handleMinimize = (windowId) => {
     // Disable window buttons
     toggleHeaderButtons(windowId, true);
+    updateWindow(windowId, {isMimizing: true, isMimized: false}, false);
 
     const windowElement = document.querySelector(`.openWindow[data-id="${windowId}"]`);
     const headerElement = windowElement.querySelector('.openWindow-header');
@@ -198,22 +204,22 @@ function App() {
 
   return (
     <>
-      <div className='desktop-icon-container'>
+      <section className='desktop-icon-container'>
         {icons.map((icon, index) => (
           <DesktopIcon
             key={index}
             imgSrc={icon.imgSrc}
             imgHeight={icon.imgHeight}
-            programName={icon.programName}
+            programName={icon.savedName ? icon.savedName : icon.programName}
             elementAssoc={icon.elementAssoc}
             isSelected={selectedIcon === index}
             onClick={() => handleIconClick(index)}
             onDoubleClick={() => handleIconDoubleClick(index)}
           />
         ))}
-      </div>
+      </section>
       
-      <div className='open-programs-container'>
+      <main className='open-programs-container'>
         {openWindows.map((window) => (
           <OpenWindow
             key={window.id} 
@@ -223,14 +229,16 @@ function App() {
             windowName={window.windowName}
             isFocused={window.id === focusedWindowId}
             isMinimized={window.isMinimized}
+            isMinimizing={window.isMimizing}
             isResuming={window.isResuming}
             onMinimize={() => handleMinimize(window.id)}
             onClose={() => handleCloseWindow(window.id)}
+            onFocus={() => setFocusedWindowId(window.id)}
           >
             {window.content}
           </OpenWindow>
         ))}
-      </div>
+      </main>
 
       <TaskBar>
         {programTasks.map((programTask) => (

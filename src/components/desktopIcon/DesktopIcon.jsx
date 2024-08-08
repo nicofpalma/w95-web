@@ -1,6 +1,6 @@
 import './DesktopIcon.css';
 
-export function DesktopIcon({imgSrc, imgHeight, programName, isSelected, onClick, onDoubleClick}){    
+export default function DesktopIcon({imgSrc, imgHeight, programName, isSelected, onClick, onDoubleClick}){    
     return (
         <div 
             className={`desktop-file ${isSelected ? 'icon-clicked' : ''}`} 

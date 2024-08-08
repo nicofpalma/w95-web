@@ -13,10 +13,17 @@
   src: url(./fonts/MorePerfectDOSVGA.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "Fixedsys Excelsior";
+  src: url(./fonts/FSEX300.ttf) format("truetype");
+}
+
 :root {
   --main-grey-color: #c0c1c1;
   --win95-backround-color: #008080;
   --win95-blue-color: #010180;
+  --inactive-window: #808080;
+  --tool-window: #7f7f7f;
   --btn-box-inner-shadow1: inset -1px -1px  #7f7f7f;
   --btn-box-inner-shadow2: inset 1px 1px 1px #ffffff;
   --btn-box-outer-shadow: 0.5px 0.5px 0.5px  rgba(0,0,0,0.7);
