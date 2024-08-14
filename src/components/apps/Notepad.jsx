@@ -9,6 +9,10 @@ export default function Notepad(){
         setActiveToolMenu(prev => prev === index ? null : index);
     }
 
+    const hideToolMenu = () => {
+        setActiveToolMenu(null);
+    }
+
     const menuOptions = [
         {name: 'File', options: [
             { text: 'New', enabled: true },
@@ -59,13 +63,16 @@ to Windows 95 as possible :)
 
     return (
         <>
-            <div className="notepad">
+            <div className="notepad" onClick={hideToolMenu}>
                 <div className='notepad-tools'>
                     {menuOptions.map((menu, index) => (
                         <div
                             key={menu.name}
                             className='tool-container'
-                            onClick={() => toggleToolsVisible(index)}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                toggleToolsVisible(index)
+                            }}
                         >
                             <p>{menu.name}</p>
                             <ToolMenu
@@ -76,11 +83,11 @@ to Windows 95 as possible :)
                     ))}
                 </div>
                 <textarea 
-                name="notepadText" 
-                className='notepad-textarea' 
-                spellCheck="false" 
-                autoComplete='off'
-                defaultValue={defaultValue}
+                    name="notepadText" 
+                    className='notepad-textarea' 
+                    spellCheck="false" 
+                    autoComplete='off'
+                    defaultValue={defaultValue}
                 >
                 </textarea>
             </div>

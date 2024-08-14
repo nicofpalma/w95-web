@@ -116,7 +116,9 @@ export default function OpenWindow({
                         id="close" 
                         onMouseDown={handleStopMouseDown} 
                         onClick={onClose}
-                    ></div>
+                    >
+                        <div className='close-btn'></div>
+                    </div>
                 </div>
             </header>
 

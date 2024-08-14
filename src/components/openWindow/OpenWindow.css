@@ -1,3 +1,4 @@
+/* Minimizing and maximizing animations */
 .minimizing {
     animation: minimize 0.4s steps(15, end) backwards;
 }
@@ -34,6 +35,7 @@
     transform: opacity 0.4s;
 } */
 
+/* Main window css properties */
 .openWindow {
     position: absolute;
     display: flex;
@@ -60,7 +62,6 @@
     /* Font of console */
     font-family: 'DOS VGA';
 }
-
 .openWindow-content{
     flex-grow: 1;
     overflow: hidden;
@@ -132,10 +133,8 @@
 }
 
 .openWindow-header-btns{
-
     justify-content: flex-end;
     align-items: center;
-
     display: flex;
     gap: 1px;
 }
@@ -167,6 +166,12 @@
     box-shadow:  var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
 }
 
+/* Close icon active effect */
+.openWindow-btn#close:active::after{
+    margin-left: 1px;
+    margin-top: 2px;
+}
+
 .openWindow-btn:last-child{
     margin-left: 2px;
 }
@@ -178,6 +183,12 @@
     border-top: 3px solid black;
 }
 
+/* Maximize and minimize active effect*/
+.openWindow-btn:active div{
+    margin-left: 1px;
+    margin-top: 1px;
+}
+
 .openWindow-minimize-icon{
     height: 65%;
     width: 45%;
@@ -185,7 +196,6 @@
 }
 
 .openWindow-body {
-    /* padding-left: 10px;  */
     position: absolute;
     top:0;
     left: 0;

@@ -34,3 +34,26 @@ footer{
 .start-btn:active{
     box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2); 
 }
+
+.start-programs-container{
+    position: absolute;
+    width: 200px;
+    height: 400px;
+    background-color: var(--main-grey-color);
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow);
+    bottom: 28px;
+    left: 3px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.start-program{
+    display: flex;
+    flex: row;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Windows Regular';
+    color: black;
+    font-size: 18px;
+    user-select: none;
+}

@@ -14,6 +14,9 @@ const componentMap = {
   Notepad
 };
 
+// Global ID to get no colision
+let globalWindowId = 0;
+
 function App() {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [openWindows, setOpenWindows] = useState([]);
@@ -32,12 +35,14 @@ function App() {
   };
 
   const handleIconDoubleClick = (index) => {
-    const existingWindow = openWindows.find(window => window.windowName === icons[index].programName);
+    const existingWindow = openWindows.find(window => (window.windowName === icons[index].programName)
+      || (window.windowName === (`${icons[index].savedName} - ${icons[index].programName}`))
+    );
 
     // Handle open the new window or focus the window if exists
     if(existingWindow){
       // Resume window if its minimized
-      if(existingWindow.isMinimized){
+      if(existingWindow.isMinimized){        
         const resumedWindow = {...existingWindow, isMinimized: false };
         const updatedWindows = openWindows.map(window => 
           window.id === existingWindow.id ? resumedWindow : window
@@ -52,7 +57,7 @@ function App() {
       const ComponentToRender = componentMap[icons[index].elementAssoc];
 
       const newWindow = {
-        id: openWindows.length,
+        id: globalWindowId++,
         imgSrc: icons[index].imgProgram ? icons[index].imgProgram : icons[index].imgSrc,
         imgHeight: "15px",
         windowName: icons[index].savedName ? `${icons[index].savedName} - ${icons[index].programName}` : icons[index].programName,
