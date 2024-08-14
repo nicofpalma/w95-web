@@ -19,12 +19,15 @@ export default function OpenWindow({
     const openWindowRef = useRef(null);
     const headerRef = useRef(null);
     //const [isMaximizing, setIsMaximizing] = useState(false);
+    const [isMaximized, setIsMaximized] = useState(false);
+    const [previousLeft, setPreviousLeft] = useState(0);
+    const [previousTop, setPreviousTop] = useState(0);
     const [offset, setOffset] = useState([0, 0]);
     const [isDown, setIsDown] = useState(false);
 
     useEffect(() => {
         const handleMouseMove = (event) => {
-            if(isDown){
+            if(isDown && !isMaximized){
                 const newLeft = event.clientX + offset[0];
                 const newTop = event.clientY + offset[1];
                 openWindowRef.current.style.left = `${newLeft}px`;
@@ -44,7 +47,7 @@ export default function OpenWindow({
             window.removeEventListener('mouseup', handleMouseUp);
         }
 
-    }, [isDown, offset]);
+    }, [isDown, offset, isMaximized]);
 
     const handleMouseDown = (e) => {
         const rect = openWindowRef.current.getBoundingClientRect();
@@ -57,12 +60,18 @@ export default function OpenWindow({
         e.stopPropagation();
     }
 
-    const handleMaximize = () => {
-        openWindowRef.current.style.height = 'calc(100% - 56px)';
-        openWindowRef.current.style.margin = '0';
-        openWindowRef.current.style.width = 'calc(100% - 13px)';
-        openWindowRef.current.style.top = '7px';
-        openWindowRef.current.style.left = '7px';
+    const handleMaximize = () => {    
+        if(!isMaximized){
+            setPreviousLeft(openWindowRef.current.style.left);
+            setPreviousTop(openWindowRef.current.style.top);
+            openWindowRef.current.style.left = '0';
+            openWindowRef.current.style.top = '0';
+        } else {
+            openWindowRef.current.style.left = previousLeft;
+            openWindowRef.current.style.top = previousTop;
+        }
+
+        setIsMaximized(!isMaximized);
     }
 
     const handleMinimize = () => {
@@ -73,12 +82,11 @@ export default function OpenWindow({
     const displayStyle = {
         display: isMinimized ? 'none' : 'flex'
     };
-    console.log(isResuming);
-    
 
     return (
         <article 
-            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''} ${isMinimizing ? 'minimizing' : ''}`} 
+            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''}  ${isMinimizing ? 'minimizing' : ''}  ${isMaximized ? 'maximized' : ''}`
+            } 
             ref={openWindowRef}
             style={displayStyle}
             data-id={id}

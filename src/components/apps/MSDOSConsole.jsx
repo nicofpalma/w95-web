@@ -15,7 +15,6 @@ export default function MSDOSConsole(){
         const inputElement = inputRef.current;
 
         const executeCommand = () => {
-            console.log('executed');
             let consoleResponse = '';
             const command = inputElement.value.trim().toLowerCase();
             switch(command){

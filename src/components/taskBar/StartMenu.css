@@ -1,0 +1,91 @@
+.start-programs-container{
+    position: absolute;
+    width: 200px;
+    height: 258px;
+    background-color: var(--main-grey-color);
+    border-left: 3px ridge white;
+    border-top: 3px ridge white;
+    border-right: 1px ridge black;
+    border-bottom: 1px ridge black;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-outer-shadow);
+    bottom: 28px;
+    left: 3px;
+    display: flex;
+    flex-direction: column-reverse;
+    
+}
+
+.start-programs-content{
+    display: flex;
+    height: 100%;
+}
+
+.sidelogo{
+    width: 25px;
+    height: 100%;
+    background-color: #808080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sidelogo img {
+    image-rendering:optimizeQuality;
+    margin-top: auto;
+    margin-bottom: 5px;
+    height: 150px;
+}
+
+.start-programs-list{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.start-program{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Windows Regular';
+    color: black;
+    font-size: 15px;
+    user-select: none;
+    margin-left: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.start-program p::after{
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 1px;
+    left: 76px;
+    margin-top: 17px;
+    background-color: black;
+}
+.start-program p:hover::after{
+    background-color: white;
+}
+
+.start-program img {
+    height: 25px;
+    margin-left: 10px;
+    image-rendering: auto;
+}
+
+.start-program-line{
+    box-shadow: inset 1px 1px 0 #7f7f7f, inset -1px -1px 0px #ffffff;
+    width: 100%;
+    height: 2px;
+}
+
+.program-line-wrapper{
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+/* .start-program + .start-program{
+    padding-bottom: 5px;
+} */

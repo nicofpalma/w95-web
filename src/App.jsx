@@ -14,14 +14,12 @@ const componentMap = {
   Notepad
 };
 
-// Global ID to get no colision
-let globalWindowId = 0;
-
 function App() {
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [openWindows, setOpenWindows] = useState([]);
   const [focusedWindowId, setFocusedWindowId] = useState(null);
   const [programTasks, setProgramTasks] = useState([]);
+  const [globalWindowId, setGlobalWindowId] = useState(0);
 
   // Add the program icons to the desktop
   const icons = [
@@ -57,14 +55,17 @@ function App() {
       const ComponentToRender = componentMap[icons[index].elementAssoc];
 
       const newWindow = {
-        id: globalWindowId++,
+        id: globalWindowId,
         imgSrc: icons[index].imgProgram ? icons[index].imgProgram : icons[index].imgSrc,
         imgHeight: "15px",
         windowName: icons[index].savedName ? `${icons[index].savedName} - ${icons[index].programName}` : icons[index].programName,
         content: ComponentToRender ? <ComponentToRender /> : null,
         isMinimized: false
       };
-  
+      
+      setGlobalWindowId(globalWindowId + 1);
+      console.log(globalWindowId);
+      
       setOpenWindows([...openWindows, newWindow]);
       setFocusedWindowId(newWindow.id);
 
@@ -189,7 +190,6 @@ function App() {
   }
 
   const handleProgramTaskClick = (programTaskId, programMinimized) => {
-    console.log(programMinimized);
     if(programMinimized){
       handleMinimize(programTaskId);
     } else {

@@ -13,10 +13,9 @@
     display: none;
 }
 
-.tool-menu.visible{
+.visible{
     display: flex;
 }
-
 
 .tool-menu-option-text {
     margin-left: 15px !important;
