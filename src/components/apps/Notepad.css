@@ -24,9 +24,18 @@
 .tool-container:hover{
     background-color: var(--win95-blue-color);
     color: white;
+    cursor: default;
+    user-select: none;
 }
 
 .notepad-tools p{
+    position: relative;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.notepad-tools p:hover{
     position: relative;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -44,6 +53,22 @@
     background-color: black;
 }
 
+.notepad-tools p.disabled::after {
+    background-color: var(--tool-window);
+}
+
+.notepad-tools p:hover::after{
+    background-color: white;
+}
+
+.notepad-tools p.disabled:hover{
+    color: var(--tool-window);
+}
+
+.notepad-tools p.disabled:hover::after{
+    background-color: var(--tool-window);
+}
+
 .notepad-textarea{
     font-family: 'Fixedsys Excelsior';
     font-size: 100%;
@@ -53,6 +78,17 @@
     border: none;
     padding: 5px;
     box-sizing: border-box;
+    box-shadow: var(--program-inner-inverted-shadow);
+}
+
+.notepad-textarea::selection{
+    background-color: var(--win95-blue-color);
+    color: white;
+}
+
+.notepad-textarea::-moz-selection{
+    background-color: red;
+    color: white;
 }
 
 .notepad-textarea:focus{

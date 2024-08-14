@@ -27,6 +27,7 @@
   --btn-box-inner-shadow1: inset -1px -1px  #7f7f7f;
   --btn-box-inner-shadow2: inset 1px 1px 1px #ffffff;
   --btn-box-outer-shadow: 0.5px 0.5px 0.5px  rgba(0,0,0,0.7);
+  --program-inner-inverted-shadow: inset 2.2px 2.2px 0 #1d1d1d;
 
   --taskbar-box-outer-shadow: 1.2px 1.2px 0px  rgba(0,0,0,1);
 
