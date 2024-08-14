@@ -38,22 +38,63 @@ footer{
 .start-programs-container{
     position: absolute;
     width: 200px;
-    height: 400px;
+    height: 300px;
     background-color: var(--main-grey-color);
-    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow);
+    border-left: 3px ridge white;
+    border-top: 3px ridge white;
+    border-right: 1px ridge black;
+    border-bottom: 1px ridge black;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-outer-shadow);
     bottom: 28px;
     left: 3px;
     display: flex;
     flex-direction: column-reverse;
 }
 
+.start-programs-content{
+    display: flex;
+    height: 100%;
+}
+
+.sidelogo{
+    width: 30px;
+    height: 100%;
+    background-color: #808080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sidelogo img {
+    margin-top: auto;
+    margin-bottom: 5px;
+    height: 150px;
+}
+
+.start-programs-list{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 .start-program{
     display: flex;
-    flex: row;
     align-items: center;
     gap: 15px;
     font-family: 'Windows Regular';
     color: black;
-    font-size: 18px;
+    font-size: 15px;
     user-select: none;
+    margin-left: 0px;
+}
+
+.start-program img {
+    /* height: 35px;
+    width: 35px; */
+    margin-left: 10px;
+}
+
+.start-program + .start-program{
+    padding-bottom: 5px;
 }
