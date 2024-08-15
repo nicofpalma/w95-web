@@ -3,24 +3,24 @@ import { TimeWidget } from './TimeWidget';
 import StartMenu from './StartMenu';
 import { useState } from 'react';
 
-export default function TaskBar({children}){
+export default function TaskBar({children, onOpenPopup}){
     const [activeStartMenu, setActiveStartMenu] = useState(false);
 
-    const handleStartMenu = () => {
+    const handleStartMenuVisibility = () => {
         setActiveStartMenu(!activeStartMenu);
     };
 
     return (
         <footer>
             <div className="tasks-container">
-                <div className={`start-btn ${activeStartMenu ? 'btn-selected' : ''}`} onClick={() => handleStartMenu()}>
+                <div className={`start-btn ${activeStartMenu ? 'btn-selected' : ''}`} onClick={() => handleStartMenuVisibility()}>
                     <img src="src/assets/start.png" height={"18px"} className="start-icon" ></img>
                 </div>
                 {children}
             </div>
 
             <TimeWidget />
-            <StartMenu visible={activeStartMenu}/>
+            <StartMenu visible={activeStartMenu} onShutdownClick={onOpenPopup} onClick={handleStartMenuVisibility}/>
         </footer>
     )
 }

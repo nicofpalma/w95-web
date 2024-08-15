@@ -13,7 +13,10 @@ export default function OpenWindow({
     onClose, 
     onFocus,
     id, 
-    children
+    children,
+    showMinimize = true,
+    showMaximize = true,
+    popup = false
 }){
 
     const openWindowRef = useRef(null);
@@ -27,7 +30,7 @@ export default function OpenWindow({
 
     useEffect(() => {
         const handleMouseMove = (event) => {
-            if(isDown && !isMaximized){
+            if(isDown && !isMaximized && !popup){
                 const newLeft = event.clientX + offset[0];
                 const newTop = event.clientY + offset[1];
                 openWindowRef.current.style.left = `${newLeft}px`;
@@ -47,7 +50,7 @@ export default function OpenWindow({
             window.removeEventListener('mouseup', handleMouseUp);
         }
 
-    }, [isDown, offset, isMaximized]);
+    }, [isDown, offset, isMaximized, popup]);
 
     const handleMouseDown = (e) => {
         const rect = openWindowRef.current.getBoundingClientRect();
@@ -85,7 +88,7 @@ export default function OpenWindow({
 
     return (
         <article 
-            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''}  ${isMinimizing ? 'minimizing' : ''}  ${isMaximized ? 'maximized' : ''}`
+            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''}  ${isMinimizing ? 'minimizing' : ''}  ${isMaximized ? 'maximized' : ''} ${popup ? 'centered' : ''}`
             } 
             ref={openWindowRef}
             style={displayStyle}
@@ -103,22 +106,28 @@ export default function OpenWindow({
                 </div>
             
                 <div className="openWindow-header-btns">
-                    <div 
-                        className="openWindow-btn" 
-                        title="Minimize" 
-                        onMouseDown={handleStopMouseDown} 
-                        onClick={handleMinimize}
-                    >
-                        <div className='openWindow-minimize-icon' id="minimize"></div>
-                    </div>
-                    <div 
-                        className="openWindow-btn" 
-                        title="Maximize" 
-                        onMouseDown={handleStopMouseDown} 
-                        onClick={handleMaximize}
-                    >
-                        <div className='openWindow-maximize-icon' id="maximize"></div>
-                    </div>
+
+                    {showMinimize && (
+                        <div 
+                            className="openWindow-btn" 
+                            title="Minimize" 
+                            onMouseDown={handleStopMouseDown} 
+                            onClick={handleMinimize}
+                        >
+                            <div className='openWindow-minimize-icon' id="minimize"></div>
+                        </div>
+                    )}
+
+                    {showMaximize && (
+                        <div 
+                            className="openWindow-btn" 
+                            title="Maximize" 
+                            onMouseDown={handleStopMouseDown} 
+                            onClick={handleMaximize}
+                        >
+                            <div className='openWindow-maximize-icon' id="maximize"></div>
+                        </div>
+                    )}
                     <div 
                         className="openWindow-btn" 
                         id="close" 

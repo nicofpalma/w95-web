@@ -63,6 +63,16 @@
     font-family: 'DOS VGA';
 }
 
+.openWindow.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 230px;
+    resize: none;
+}
+
 .openWindow.maximized{
     width: 100% !important;
     height: calc(100% - 33px) !important;

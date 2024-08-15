@@ -1,0 +1,131 @@
+/* Container */
+.shutdown-popup{
+    position: relative;
+    background-color: var(--main-grey-color);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    color: black;
+    font-family: 'Windows Regular';
+    font-size: 14px;
+}
+
+/* Container icon */
+.shutdown-icon-container{
+    position: relative;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    top: 20px;
+    left: 5px;
+}
+
+/* icon on the container */
+.shutdown-icon-container img{
+    height: 35px;
+}
+
+/* Radio group container */
+.radio-group{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input + radio container */
+.shutdown-options{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    left: 15px;
+    top: 15px;
+}
+
+/* Title */
+.shutdown-options p{
+    margin-bottom: 15px;
+}
+
+/* Bottom buttons container Yes, No, Help */
+.shutdown-action-btns{
+    position: relative;
+    display: flex;
+    align-items: end;    
+    justify-content: flex-end;
+    width: 100%;
+    height: 55px;
+    gap: 8px;
+    left: 40px;
+}
+
+/* Buttons: Yes, No, Help */
+.shutdown-action-btns button{
+    width: 100%;
+    height: 25px;
+    background-color: var(--main-grey-color);
+    border: none;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 1px solid #272727;
+    border-right: 1px solid #272727;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow);
+}
+
+.shutdown-action-btns button:active{
+    border:none;
+    border-top: 1px inset #272727;
+    border-left: 1px inset #272727;
+    border-bottom: 1px inset white;
+    border-right: 1px inset white;
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
+}
+
+/* Radio buttons styles*/
+.radio-group input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-group label {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.radio-group .custom-radio {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    border-bottom: 1px groove rgb(255, 255, 255);
+    border-left: 1px groove #000000;
+    border-top: 1px groove #000000;
+    border-right: 1px groove rgb(255, 255, 255);
+    box-shadow: inset 0.5px 0.5px 1px #7f7f7f, inset -0.5px -0.5px 1px #ffffff;
+    margin-right: 7px;
+    position: relative;
+    box-sizing: content-box;
+}
+
+.radio-group label:active .custom-radio {
+    background-color: var(--main-grey-color);
+}
+
+/* Radio button selected */
+.radio-group input[type="radio"]:checked + .custom-radio::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: #000000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}

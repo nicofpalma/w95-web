@@ -8,6 +8,8 @@ import TaskBar from './components/taskBar/TaskBar.jsx';
 import ProgramTask  from './components/taskBar/ProgramTask.jsx';
 import DesktopIcon from './components/desktopIcon/DesktopIcon.jsx';
 import { useState } from 'react';
+import Popup from './components/openWindow/Popup.jsx';
+import Shutdown from './components/apps/Shutdown.jsx';
 
 const componentMap = {
   MSDOSConsole,
@@ -20,6 +22,21 @@ function App() {
   const [focusedWindowId, setFocusedWindowId] = useState(null);
   const [programTasks, setProgramTasks] = useState([]);
   const [globalWindowId, setGlobalWindowId] = useState(0);
+  const [isShutdownPopupVisible, setIsShutdownPopupVisible] = useState(false);
+  const [isShuttingDown, setIsShuttingDown] = useState(false);
+  const [isShutdown, setIsShutdown] = useState(false);
+
+  if(isShutdown){
+    document.body.style.backgroundColor = 'black';
+    return null;
+  }
+
+  const handleShutdown = () => {
+    setIsShuttingDown(true);
+    setTimeout(() => {
+      setIsShutdown(true);
+    }, 3000); 
+  }
 
   // Add the program icons to the desktop
   const icons = [
@@ -207,8 +224,13 @@ function App() {
     if(focusedWindowId === windowId) setFocusedWindowId(null);
   }
 
+  const openShutdownPopup = () => {
+    setIsShutdownPopupVisible(!isShutdownPopupVisible);
+  }
+
   return (
-    <>
+    <div className={isShuttingDown ? 'shutting-down' : ''}>
+      {isShuttingDown && <div className='shutdown-overlay'></div>}
       <section className='desktop-icon-container'>
         {icons.map((icon, index) => (
           <DesktopIcon
@@ -225,6 +247,20 @@ function App() {
       </section>
       
       <main className='open-programs-container'>
+
+        {isShutdownPopupVisible && (
+          <Popup
+            key={-1}
+            id={-1}
+            imgSrc={''}
+            windowName={'Shut Down Windows'}
+            isFocused={true}
+            visible={isShutdownPopupVisible}
+          >
+            <Shutdown onShutdown={handleShutdown}></Shutdown>
+          </Popup>
+        )}
+
         {openWindows.map((window) => (
           <OpenWindow
             key={window.id} 
@@ -245,7 +281,7 @@ function App() {
         ))}
       </main>
 
-      <TaskBar>
+      <TaskBar onOpenPopup={openShutdownPopup}>
         {programTasks.map((programTask) => (
           <ProgramTask
             key={programTask.id}
@@ -259,7 +295,7 @@ function App() {
         ))}
       </TaskBar>
       
-    </>
+    </div>
   )
 }
 
