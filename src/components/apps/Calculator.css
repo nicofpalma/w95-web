@@ -1,0 +1,119 @@
+.calculator {
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-grey-color);
+    position: relative;
+}
+
+.calc-items-container{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+
+}
+
+.calc-items-container input{
+    position: relative;
+    width: 90%;
+    height: 30px;
+    user-select: none;
+    pointer-events: none;
+    border: none;
+    border-top: var(--action-btns-borderblack);
+    border-left: var(--action-btns-borderblack);
+    border-right: var(--action-btns-borderwhite);
+    border-bottom: var(--action-btns-borderwhite);
+    box-shadow:  inset 1px 1px 0 #7f7f7f, inset -1px -1px 1px #ffffff;
+    text-align: end;
+}
+
+.calc-buttons-container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    width: 90%;
+}
+/* 
+.calc-items-container button{
+    width: 50px;
+    height: 40px;
+} */
+
+.action-btns button{
+    background-color: var(--main-grey-color);
+    border: none;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 1px solid #272727;
+    border-right: 1px solid #272727;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow);
+    width: 38px;
+    height: 30px;
+    font-family: 'Windows Regular';
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.calc-back-btn, .calc-ce-btn, .calc-c-btn{
+    width: 55px !important;
+}
+
+.calc-m-info{
+    background-color: var(--main-grey-color);
+    border: none;
+    border-top: 1px solid #272727 ;
+    border-left: 1px solid #272727;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
+    width: 38px;
+    height: 29px;
+}
+
+.calc-m-info + button {
+    margin-left: 53px;
+}
+
+.lateral-btn{
+    margin-right: 10px;
+}
+
+.lateral-btn + button {
+    margin-left: 10px;
+}
+
+.action-btns button:active{
+    border:none;
+    border-top: 1px inset #272727;
+    border-left: 1px inset #272727;
+    border-bottom: 1px inset white;
+    border-right: 1px inset white;
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
+}
+
+.action-btns button:active span{
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+.blue-btn{
+    color: #0000ff;
+}
+
+.blue-btn2{
+    color: #0300a3;
+}
+
+.red-btn{
+    color: #ff0000;
+}
+
+.red-btn2{
+    color: #8b2525fd;
+}
+

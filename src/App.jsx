@@ -10,10 +10,13 @@ import DesktopIcon from './components/desktopIcon/DesktopIcon.jsx';
 import { useState } from 'react';
 import Popup from './components/openWindow/Popup.jsx';
 import Shutdown from './components/apps/Shutdown.jsx';
+import Calculator from './components/apps/Calculator.jsx';
+import W95Cursor from './components/cursor/W95Cursor.jsx';
 
 const componentMap = {
   MSDOSConsole,
-  Notepad
+  Notepad,
+  Calculator
 };
 
 function App() {
@@ -25,23 +28,65 @@ function App() {
   const [isShutdownPopupVisible, setIsShutdownPopupVisible] = useState(false);
   const [isShuttingDown, setIsShuttingDown] = useState(false);
   const [isShutdown, setIsShutdown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if(isShutdown){
     document.body.style.backgroundColor = 'black';
     return null;
   }
 
+  //TODO: Restart logic
+  // const handleRestart = () => {
+  //   setIsShuttingDown(true);
+  //   setTimeout(() => {
+  //     setIsShutdown(true);
+  //   }, 3000); 
+
+  //   setTimeout(() => {
+  //     setIsShuttingDown(false);
+  //     setIsShutdown(false);
+  //     document.body.style.backgroundColor = 'var(--win95-backround-color)';
+  //   }, 10000)
+  // }
+
   const handleShutdown = () => {
     setIsShuttingDown(true);
+    setIsLoading(true);
     setTimeout(() => {
       setIsShutdown(true);
+      setIsLoading(false);
     }, 3000); 
   }
 
-  // Add the program icons to the desktop
+  // Add the program icons and properties of the windows to the desktop
   const icons = [
-    { imgSrc: 'msdos.png', imgHeight: '32px', programName: 'MS-DOS Prompt', elementAssoc: 'MSDOSConsole'},
-    { imgSrc: 'notepad1.png', imgProgram: 'notepad2.png', imgHeight: '32px', programName: 'Notepad', savedName: 'hello.txt',  elementAssoc: 'Notepad'}
+    { imgSrc: 'msdos.png', 
+      imgHeight: '32px', 
+      programName: 'MS-DOS Prompt', 
+      elementAssoc: 'MSDOSConsole',
+      showMaximize: true,
+      resizable: true,
+      customBackground: 'black',
+      isShortcut: true
+    },
+    { imgSrc: 'notepad1.png', 
+      imgProgram: 'notepad2.png', 
+      imgHeight: '32px', 
+      programName: 'Notepad', 
+      savedName: 'hello.txt',  
+      elementAssoc: 'Notepad',
+      showMaximize: true,
+      resizable: true
+    },
+    { imgSrc: 'calculator.png', 
+      imgHeight:'32px', 
+      programName: 'Calculator', 
+      elementAssoc: 'Calculator',
+      showMaximize: false,
+      resizable: false,
+      isShortcut: true,
+      customDimentions: [310, 300]
+    }
   ];
 
   const handleIconClick = (index) => {
@@ -77,25 +122,42 @@ function App() {
         imgHeight: "15px",
         windowName: icons[index].savedName ? `${icons[index].savedName} - ${icons[index].programName}` : icons[index].programName,
         content: ComponentToRender ? <ComponentToRender /> : null,
-        isMinimized: false
-      };
-      
-      setGlobalWindowId(globalWindowId + 1);
-      console.log(globalWindowId);
-      
-      setOpenWindows([...openWindows, newWindow]);
-      setFocusedWindowId(newWindow.id);
-
-      // Also set the program taskbar
-      const newTask = {
-        id: newWindow.id,
-        imgSrc: newWindow.imgSrc,
-        imgHeight: "18px",
-        programName: newWindow.windowName,
-        isMinimized: newWindow.isMinimized
+        isMinimized: false,
+        showMaximize: icons[index].showMaximize,
+        resizable: icons[index].resizable,
+        customDimentions: icons[index].customDimentions ? icons[index].customDimentions : [0, 0],
+        customBackground: icons[index].customBackground
       };
 
-      setProgramTasks([...programTasks, newTask]);
+      console.log(newWindow.windowName);
+      console.log(icons[index].showMaximize);
+
+      // Timeout to simulate slow pc
+      setIsLoading(true);
+      setTimeout(() => {
+        setGlobalWindowId(globalWindowId + 1);
+        console.log(globalWindowId);
+        
+        setOpenWindows([...openWindows, newWindow]);
+        setFocusedWindowId(newWindow.id);
+  
+        // Also set the program taskbar
+        const newTask = {
+          id: newWindow.id,
+          imgSrc: newWindow.imgSrc,
+          imgHeight: "18px",
+          programName: newWindow.windowName,
+          isMinimized: newWindow.isMinimized
+        };
+  
+        setProgramTasks([...programTasks, newTask]);
+        
+      }, 100);
+
+      // Loading cursor disable
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
   }
 
@@ -229,8 +291,13 @@ function App() {
   }
 
   return (
+    <>
+    {isLoading && (
+      <W95Cursor/>
+    )}
+    
     <div className={isShuttingDown ? 'shutting-down' : ''}>
-      {isShuttingDown && <div className='shutdown-overlay'></div>}
+      {(isShuttingDown || isShutdownPopupVisible) && <div className='shutdown-overlay'></div>}
       <section className='desktop-icon-container'>
         {icons.map((icon, index) => (
           <DesktopIcon
@@ -242,6 +309,7 @@ function App() {
             isSelected={selectedIcon === index}
             onClick={() => handleIconClick(index)}
             onDoubleClick={() => handleIconDoubleClick(index)}
+            isShortcut={icon.isShortcut}
           />
         ))}
       </section>
@@ -256,8 +324,12 @@ function App() {
             windowName={'Shut Down Windows'}
             isFocused={true}
             visible={isShutdownPopupVisible}
+            onClose={() => setIsShutdownPopupVisible(false)}
           >
-            <Shutdown onShutdown={handleShutdown}></Shutdown>
+            <Shutdown 
+              onShutdown={handleShutdown}
+              onNo={() => setIsShutdownPopupVisible(false)}
+            />
           </Popup>
         )}
 
@@ -275,6 +347,10 @@ function App() {
             onMinimize={() => handleMinimize(window.id)}
             onClose={() => handleCloseWindow(window.id)}
             onFocus={() => setFocusedWindowId(window.id)}
+            showMaximize={window.showMaximize}
+            resizable={window.resizable}
+            customDimentions={window.customDimentions}
+            customBackground={window.customBackground}
           >
             {window.content}
           </OpenWindow>
@@ -296,6 +372,8 @@ function App() {
       </TaskBar>
       
     </div>
+    </>
+
   )
 }
 

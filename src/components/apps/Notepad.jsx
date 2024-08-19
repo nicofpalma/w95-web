@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './Notepad.css';
 import ToolMenu from './ToolMenu';
+import WindowTools from '../openWindow/WindowTools';
 
 export default function Notepad(){
     const [activeToolMenu, setActiveToolMenu] = useState(null);
@@ -64,7 +65,7 @@ to Windows 95 as possible :)
     return (
         <>
             <div className="notepad" onClick={hideToolMenu}>
-                <div className='notepad-tools'>
+                <WindowTools>
                     {menuOptions.map((menu, index) => (
                         <div
                             key={menu.name}
@@ -81,7 +82,7 @@ to Windows 95 as possible :)
                             />
                         </div>
                     ))}
-                </div>
+                </WindowTools>
                 <textarea 
                     name="notepadText" 
                     className='notepad-textarea' 

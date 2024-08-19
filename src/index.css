@@ -35,6 +35,9 @@
   --btn-inverted-box-inner-shadow2: inset -1.5px -1.5px 1.5px #ffffff;
 
   --background-selected-item: radial-gradient(rgb(192, 193, 193) 41.6%, transparent 62.8%), radial-gradient(rgb(192, 193, 193) 41.6%, transparent 62.8%);
+
+  --action-btns-borderblack: 1px solid #272727;
+  --action-btns-borderwhite: 1px solid white;
 }
 
 .shutting-down * {
@@ -56,8 +59,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  z-index: 10000;
+  background-color: #e5e5f7;
+  opacity: 0.3;
+  background-image:  linear-gradient(135deg, #008080 25%, transparent 25%), linear-gradient(225deg, #008080 25%, transparent 25%), linear-gradient(45deg, #008080 2%, transparent 25%), linear-gradient(315deg, #008080 2%, #000000 5%);
+  background-position:  4px 0, 4px 0, 0 0, 0 0;
+  background-size: 3px 3px;
+  background-repeat: repeat;
+  z-index: 9999;
   pointer-events: all;
 }
 
@@ -76,6 +84,8 @@ html, body {
 
 body {
   background-color: var(--win95-backround-color); /* Fondo verde azulado */
+  
+  
 }
 
 footer {

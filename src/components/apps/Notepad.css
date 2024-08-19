@@ -6,69 +6,6 @@
     height: 100%;
 }
 
-.notepad-tools{
-    position: sticky;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    flex-shrink: 0;
-    width: 100%;
-    height: 28px;
-    background-color: var(--main-grey-color);
-    font-family: 'Windows Regular';
-    font-size: 16px;
-    color: black;
-}
-
-.tool-container:hover{
-    background-color: var(--win95-blue-color);
-    color: white;
-    cursor: default;
-    user-select: none;
-}
-
-.notepad-tools p{
-    position: relative;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.notepad-tools p:hover{
-    position: relative;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.notepad-tools p::after {
-    content: '';
-    position: absolute;
-    left: 10px;
-    bottom: 0;
-    width: 12px;
-    height: 1px;
-    margin-bottom: 7px; 
-    background-color: black;
-}
-
-.notepad-tools p.disabled::after {
-    background-color: var(--tool-window);
-}
-
-.notepad-tools p:hover::after{
-    background-color: white;
-}
-
-.notepad-tools p.disabled:hover{
-    color: var(--tool-window);
-}
-
-.notepad-tools p.disabled:hover::after{
-    background-color: var(--tool-window);
-}
-
 .notepad-textarea{
     font-family: 'Fixedsys Excelsior';
     font-size: 100%;

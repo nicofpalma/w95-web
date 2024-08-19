@@ -16,62 +16,42 @@ export default function OpenWindow({
     children,
     showMinimize = true,
     showMaximize = true,
-    popup = false
+    popup = false,
+    resizable = true,
+    customDimentions = [0, 0],
+    customBackground
 }){
 
     const openWindowRef = useRef(null);
     const headerRef = useRef(null);
-    //const [isMaximizing, setIsMaximizing] = useState(false);
+    const contentRef = useRef(null);
     const [isMaximized, setIsMaximized] = useState(false);
-    const [previousLeft, setPreviousLeft] = useState(0);
-    const [previousTop, setPreviousTop] = useState(0);
+    const [previousPosition, setPreviousPosition] = useState({left: 0, top: 0});
     const [offset, setOffset] = useState([0, 0]);
-    const [isDown, setIsDown] = useState(false);
-
-    useEffect(() => {
-        const handleMouseMove = (event) => {
-            if(isDown && !isMaximized && !popup){
-                const newLeft = event.clientX + offset[0];
-                const newTop = event.clientY + offset[1];
-                openWindowRef.current.style.left = `${newLeft}px`;
-                openWindowRef.current.style.top = `${newTop}px`;
-            }
-        }
-
-        const handleMouseUp = () => {
-            setIsDown(false);
-        }
-
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        }
-
-    }, [isDown, offset, isMaximized, popup]);
+    const [isDragging, setIsDragging] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const handleMouseDown = (e) => {
         const rect = openWindowRef.current.getBoundingClientRect();
-        setIsDown(true);
+        setIsDragging(true);
         setOffset([rect.left - e.clientX, rect.top - e.clientY]);
     }
 
-    // Prevents moving the window when touching on header buttons
-    const handleStopMouseDown = (e) => {
-        e.stopPropagation();
+    const handleMouseUp = () => {
+        setIsDragging(false);
     }
 
     const handleMaximize = () => {    
         if(!isMaximized){
-            setPreviousLeft(openWindowRef.current.style.left);
-            setPreviousTop(openWindowRef.current.style.top);
+            setPreviousPosition({
+                left: openWindowRef.current.style.left,
+                top: openWindowRef.current.style.top
+            });
             openWindowRef.current.style.left = '0';
             openWindowRef.current.style.top = '0';
         } else {
-            openWindowRef.current.style.left = previousLeft;
-            openWindowRef.current.style.top = previousTop;
+            openWindowRef.current.style.left = previousPosition.left;
+            openWindowRef.current.style.top = previousPosition.top;
         }
 
         setIsMaximized(!isMaximized);
@@ -81,19 +61,61 @@ export default function OpenWindow({
         openWindowRef.current.classList.add('minimizing');
         onMinimize();
     }
+    
+    const handleClick = () => {
+        onFocus ? onFocus() : null;
+    }
 
     const displayStyle = {
         display: isMinimized ? 'none' : 'flex'
     };
 
+    useEffect(() => {
+        // Handle custom dimentions
+        if(customDimentions && customDimentions[0] !== 0 && customDimentions[1] !== 0){
+            openWindowRef.current.style.height = `${customDimentions[0]}px`;
+            openWindowRef.current.style.width = `${customDimentions[1]}px`;
+        }
+
+        const handleMouseMove = (event) => {
+            if(isDragging && !isMaximized && !popup){
+                const newLeft = event.clientX + offset[0];
+                const newTop = event.clientY + offset[1];
+                openWindowRef.current.style.left = `${newLeft}px`;
+                openWindowRef.current.style.top = `${newTop}px`;
+            }
+        }    
+
+        if(isDragging){
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        } else {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        }
+
+        const timer = setTimeout(() => {
+            setIsLoaded(true);
+        }, 500);
+
+        !customBackground ? contentRef.current.style.backgroundColor = 'var(--main-grey-color)' :
+            contentRef.current.style.backgroundColor = customBackground;
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            clearTimeout(timer);
+        }
+    }, [isDragging, isMaximized, offset, popup, customDimentions, customBackground]);
+
     return (
         <article 
-            className={`openWindow ${isFocused ? 'focused' : ''} ${isResuming ? 'resuming' : ''}  ${isMinimizing ? 'minimizing' : ''}  ${isMaximized ? 'maximized' : ''} ${popup ? 'centered' : ''}`
+            className={`openWindow ${(isFocused && !popup) ? 'focused' : ''} ${isResuming ? 'resuming' : ''}  ${isMinimizing ? 'minimizing' : ''}  ${isMaximized ? 'maximized' : ''} ${popup ? 'centered' : ''} ${resizable ? '' : 'not-resizable'} ${(isFocused && popup) ? 'focused-popup' : ''}`
             } 
             ref={openWindowRef}
             style={displayStyle}
             data-id={id}
-            onClick={onFocus}
+            onClick={handleClick}
         >
             <header 
                 className={`openWindow-header`} 
@@ -111,7 +133,7 @@ export default function OpenWindow({
                         <div 
                             className="openWindow-btn" 
                             title="Minimize" 
-                            onMouseDown={handleStopMouseDown} 
+                            onMouseDown={(e) => e.stopPropagation()} 
                             onClick={handleMinimize}
                         >
                             <div className='openWindow-minimize-icon' id="minimize"></div>
@@ -122,7 +144,7 @@ export default function OpenWindow({
                         <div 
                             className="openWindow-btn" 
                             title="Maximize" 
-                            onMouseDown={handleStopMouseDown} 
+                            onMouseDown={(e) => e.stopPropagation()} 
                             onClick={handleMaximize}
                         >
                             <div className='openWindow-maximize-icon' id="maximize"></div>
@@ -131,7 +153,7 @@ export default function OpenWindow({
                     <div 
                         className="openWindow-btn" 
                         id="close" 
-                        onMouseDown={handleStopMouseDown} 
+                        onMouseDown={(e) => e.stopPropagation()} 
                         onClick={onClose}
                     >
                         <div className='close-btn'></div>
@@ -139,12 +161,15 @@ export default function OpenWindow({
                 </div>
             </header>
 
+                <main className="openWindow-content" ref={contentRef}>
+                {isLoaded ? (
+                    <div className={`openWindow-body`}>
+                        {children}
+                    </div>
+                ) : null}
+                </main>
+         
 
-            <main className="openWindow-content">
-                <div className={`openWindow-body`}>
-                    {children}
-                </div>
-            </main>
         </article>
     )
 }

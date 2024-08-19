@@ -71,6 +71,7 @@
     width: 400px;
     height: 230px;
     resize: none;
+    z-index: 10000;
 }
 
 .openWindow.maximized{
@@ -122,6 +123,11 @@
 }
 
 .openWindow.focused .openWindow-header{
+    background-color: var(--win95-blue-color);  
+    color: #ffffff; 
+}
+
+.openWindow.focused-popup .openWindow-header{
     background-color: var(--win95-blue-color);  
     color: #ffffff; 
 }
@@ -233,3 +239,9 @@
     visibility: hidden;
     overflow: visible;
 }
+
+.openWindow.not-resizable{
+    resize: none;
+}
+
+

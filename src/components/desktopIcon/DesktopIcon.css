@@ -27,3 +27,10 @@
     filter: invert(13%) sepia(80%) saturate(3201%) hue-rotate(237deg) brightness(79%) contrast(137%);
 }
 
+.shortcut-icon-container{
+    position: absolute;
+    top: 30px;
+    left: 10px;
+
+}
+

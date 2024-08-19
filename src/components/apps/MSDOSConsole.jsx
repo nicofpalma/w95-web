@@ -11,82 +11,68 @@ export default function MSDOSConsole(){
 
     const [consoleContent, setConsoleContent] = useState([]);
 
-    useEffect(() => {
+    const executeCommand = () => {
         const inputElement = inputRef.current;
-
-        const executeCommand = () => {
-            let consoleResponse = '';
-            const command = inputElement.value.trim().toLowerCase();
-            switch(command){
-                case 'cls': {
-                    setConsoleContent([]);
-                    break;
-                }
-                case 'test': {
-                    // Only for test
-                    break;
-                }
-                case 'about': {
-                    consoleResponse = 'nichel.dev';
-                    break;
-                }
-                default:{
-                    consoleResponse = 'Bad command or file name';
-                    break;
-                }
+        let consoleResponse = '';
+        const command = inputElement.value.trim().toLowerCase();
+        switch(command){
+            case 'cls': {
+                setConsoleContent([]);
+                break;
             }
-
-            // Submit the used command to the consoleContent if command is different to cls
-            if(command !== 'cls'){
-                setConsoleContent(prevContent => {
-                    const usedCommand = labelInputRef.current.textContent + ' ' + command;
-                    const newTextContent = [
-                        ...prevContent,
-                        usedCommand,
-                    ];
-
-                    if(consoleResponse !== ''){
-                        newTextContent.push(consoleResponse);
-                    }
-                
-                    return newTextContent;
-                });
+            case 'test': {
+                // Only for test
+                break;
             }
-
-            // Delete input value and update caret
-            inputElement.value = '';
-            handleCaretPosition();
-        }
-
-        const handleKeyDown = (e) => {
-            switch(e.key){
-                case 'Enter':
-                    executeCommand();
-                    break;
-                default: 
-                    break;
+            case 'about': {
+                consoleResponse = 'nichel.dev';
+                break;
+            }
+            default:{
+                consoleResponse = 'Bad command or file name';
+                break;
             }
         }
 
-        inputElement.addEventListener('input', handleCaretPosition);
-        inputElement.addEventListener('click', handleCaretPosition);
-        inputElement.addEventListener('keyup', handleCaretPosition);
-        inputElement.addEventListener('keydown', handleKeyDown);
+        // Submit the used command to the consoleContent if command is different to cls
+        if(command !== 'cls'){
+            setConsoleContent(prevContent => {
+                const usedCommand = labelInputRef.current.textContent + ' ' + command;
+                const newTextContent = [
+                    ...prevContent,
+                    usedCommand,
+                ];
 
+                if(consoleResponse !== ''){
+                    newTextContent.push(consoleResponse);
+                }
+            
+                return newTextContent;
+            });
+        }
+
+        // Delete input value and update caret
+        inputElement.value = '';
         handleCaretPosition();
+    }
 
-        // Adjust margins
-        const labelInput = labelInputRef.current;
-        inputElement.style.marginLeft = `${labelInput.offsetWidth + 5}px`;
-        caret.current.style.marginLeft = `${labelInput.offsetWidth + 5}px`;
+    const handleInput = () => {
+        handleCaretPosition();
+    }
 
-        return () => {
-            inputElement.removeEventListener('input', handleCaretPosition);
-            inputElement.removeEventListener('click', handleCaretPosition);
-            inputElement.removeEventListener('keyup', handleCaretPosition);
-            inputElement.removeEventListener('keydown', handleKeyDown);
+    const handleClick = () => {
+        handleCaretPosition();
+    };
+
+    const handleKeyDown = (e) => {
+        switch(e.key){
+            case 'Enter':
+                executeCommand();
+                break;
+            default: 
+                break;
         }
-    }, []);
+    }
 
     const handleCaretPosition = () => {
         const inputRect = inputRef.current.getBoundingClientRect();
@@ -101,6 +87,16 @@ export default function MSDOSConsole(){
         caret.current.style.top = `${inputRect.top - spanRect.top}px`; 
         caret.current.style.height = `${inputRect.height}px`; 
     }
+
+    useEffect(() => {
+        const inputElement = inputRef.current;
+        handleCaretPosition();
+
+        // Adjust margins
+        const labelInput = labelInputRef.current;
+        inputElement.style.marginLeft = `${labelInput.offsetWidth + 5}px`;
+        caret.current.style.marginLeft = `${labelInput.offsetWidth + 5}px`;
+    }, []);
 
     return (
         <div className="console-container">
@@ -118,6 +114,10 @@ export default function MSDOSConsole(){
                     id="console-input" 
                     autoComplete="off" 
                     ref={inputRef}
+                    onKeyDown={handleKeyDown}
+                    onInput={handleInput}
+                    onClick={handleClick}
+                    onKeyUp={handleCaretPosition}
                 />
                 <span className="blink-caret" id="blink-caret" ref={caret}>_</span>
             </span>

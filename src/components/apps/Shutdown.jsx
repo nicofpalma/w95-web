@@ -1,7 +1,7 @@
 import './Shutdown.css';
 import { useState } from 'react';
 
-export default function Shutdown({onShutdown}){
+export default function Shutdown({onShutdown, onNo}){
     const [selectedOption, setSelectedOption] = useState('shutdown');
 
     const handleChange = (event) => {
@@ -69,7 +69,7 @@ export default function Shutdown({onShutdown}){
 
                 <div className='shutdown-action-btns'>
                     <button onClick={handleShutdownClick}>Yes</button>
-                    <button>No</button>
+                    <button onClick={onNo}>No</button>
                     <button>Help</button>
                 </div>
 
