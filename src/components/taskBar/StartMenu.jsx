@@ -10,7 +10,7 @@ export default function StartMenu({
 
     const startMenuItems = [
         {
-            imgSrc: "src/assets/shutdown.png",
+            imgSrc: "/assets/shutdown.png",
             alt: "Shutdown",
             title: "Shutdown",
             label: "Shut Down...",
@@ -20,42 +20,42 @@ export default function StartMenu({
             } 
         },
         {
-            imgSrc: "src/assets/run.png",
+            imgSrc: "/assets/run.png",
             alt: "Run",
             title: "Run",
             label: "Run...",
             onClick: onClick
         },
         {
-            imgSrc: "src/assets/help.png",
+            imgSrc: "/assets/help.png",
             alt: "Help",
             title: "Help",
             label: "Help",
             onClick: onClick
         },
         {
-            imgSrc: "src/assets/find.png",
+            imgSrc: "/assets/find.png",
             alt: "Find",
             title: "Find",
             label: "Find",
             onClick: onClick
         },
         {
-            imgSrc: "src/assets/settings.png",
+            imgSrc: "/assets/settings.png",
             alt: "Settings",
             title: "Settings",
             label: "Settings",
             onClick: onClick
         },
         {
-            imgSrc: "src/assets/documents.png",
+            imgSrc: "/assets/documents.png",
             alt: "Documents",
             title: "Documents",
             label: "Documents",
             onClick: onClick
         },
         {
-            imgSrc: "src/assets/programs.png",
+            imgSrc: "/assets/programs.png",
             alt: "Programs",
             title: "Programs",
             label: "Programs",
@@ -67,7 +67,7 @@ export default function StartMenu({
         <div className={`start-programs-container ${visible ? 'visible' : ''}`}>
         <div className="start-programs-content">
             <div className='sidelogo'>
-                <img src="src/assets/sidelogo.png" alt="" />
+                <img src="/assets/sidelogo.png" alt="" />
             </div>
             <div className="start-programs-list">
                 {startMenuItems.map((item, index) => (

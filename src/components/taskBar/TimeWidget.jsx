@@ -37,7 +37,7 @@ export function TimeWidget(){
 
     return (
         <div className="time-widget">
-            <img src="src/assets/speaker.png" alt="Speaker" width={"20px"} />
+            <img src="/assets/speaker.png" alt="Speaker" width={"20px"} />
             <p id="time">{time}</p>
         </div>
     )

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./MSDOSConsole.css";
+import { isLoggedIn, loginUser, logout, registerUser } from "../../api/user";
 
 export default function MSDOSConsole(){
 
@@ -9,17 +10,23 @@ export default function MSDOSConsole(){
     const caret = useRef(null);
     const labelInputRef = useRef(null);
     const [labelInputContent, setLabelInputContent] = useState("C:\\WINDOWS>");
-    const [isRegistering, setIsRegistering] = useState(null);
+    const [isGivingCredentials, setIsGivingCredentials] = useState(null);
     const [userData, setUserData] = useState({username: '', password: ''});
-
     const [consoleContent, setConsoleContent] = useState([]);
 
-    const executeCommand = () => {
+    const allowedCommands = ['cls', 'test', 'about', 'register', 'login', 'logout', 'test'];
+
+    const executeCommand = async () => {
         const inputElement = inputRef.current;
         let consoleResponse = '';
         const command = inputElement.value.trim().toLowerCase();
 
         switch(command){
+            case 'help': {
+                const commandsList = allowedCommands.join(', ');
+                consoleResponse = `Avaible commands: ${commandsList}`;
+                break;
+            }
             case 'cls': {
                 setConsoleContent([]);
                 break;
@@ -29,15 +36,47 @@ export default function MSDOSConsole(){
                 break;
             }
             case 'about': {
-                consoleResponse = 'nichel.dev';
+                consoleResponse = 'https://github.com/nicofpalma';
                 break;
             }
             case 'register': {
-                consoleResponse = 'Hi. You have entered the register command. You can enter a username and password that identifies you, and then log in.';
-                setLabelInputContent("username: ");
-                setIsRegistering({step: 0});
+                if(userData.username === '' || userData.password === ''){
+                    consoleResponse = 'Hi. You have entered the register command. You can enter a username and password that identifies you, and then log in.';
+                    setLabelInputContent("username: ");
+                    setIsGivingCredentials({step: 0});
+                } else {
+                    consoleResponse = "You have an active session. Put the command 'logout' before to create another user.";
+                }
                 break;
             }
+            case 'login': {
+                if(userData.username === '' || userData.password === ''){
+                    consoleResponse = 'Enter your username and password below to login.';
+                    setLabelInputContent("username: ");
+                    setIsGivingCredentials({step: 2});
+                } else {
+                    try {
+                        await loginUser(userData);
+                        consoleResponse = `Successfully logged in, ${userData.username}!`;
+                    } catch(error){
+                        consoleResponse = 'Login error: ' + error.message;
+                    }
+                    setIsGivingCredentials(null);
+                    setLabelInputContent("C:\\WINDOWS>");
+                }
+                break;
+            }
+            case 'logout':
+                try {
+                    await isLoggedIn();
+                    await logout();
+
+                    consoleResponse = `Logged out. See again later ${userData.username}!`
+                } catch (error){
+                    consoleResponse = 'Logout error: ' + error.message;
+                }
+                setUserData({username: '', password: ''});
+                break;
             default:{
                 consoleResponse = 'Bad command or file name';
                 break;
@@ -74,41 +113,79 @@ export default function MSDOSConsole(){
         handleCaretPosition();
     };
 
-    const handleRegister = async (step) => {
+    const handleCredentials = async (step) => {
         const inputElement = inputRef.current;
         let consoleResponse = '';
-        const command = inputElement.value.trim().toLowerCase();
+
+        let command = '';
+        if(isGivingCredentials.step === 1 || isGivingCredentials.step === 3){
+            command = inputElement.value.trim();
+        } else {
+            command = inputElement.value.trim().toLowerCase();
+        }
+
+        const usernameRegex = /^[a-zA-Z0-9]{4,}$/;
+        const passwordRegex = /^.{6,}$/;
 
         switch(step){
+            // Username 
             case 0:{
-                if(command === ''){
-                    consoleResponse = 'Invalid username';
+                if(command === '' || !usernameRegex.test(command)){
+                    consoleResponse = 'Invalid username. It must be at least 4 characters long and have no special characters.';
                 } else {
                     setUserData({username: command, password: ''});
-                    setIsRegistering({step: 1});
+                    setIsGivingCredentials({step: 1});
                     setLabelInputContent("password: ");
                 }
                 break;
             }
+            // Password
             case 1:{
-                if(command === ''){
-                    consoleResponse = 'Invalid password';
+                if(command === '' || !passwordRegex.test(command)){
+                    consoleResponse = 'Invalid password. Must be at least 6 characters long.';
                 } else {
                     setUserData(prev => ({username: prev.username, password: command}));                   
                     
                     try {
                         await registerUser({username: userData.username, password: command});
-                        consoleResponse = 'Registration successful!'
+                        consoleResponse = 'Registration successful!';
                     } catch (error){
                         consoleResponse = 'Error registering user: ' + error.message;
                     }
-                    setIsRegistering(null);
+                    setIsGivingCredentials(null);
                     setLabelInputContent("C:\\WINDOWS>");
                 }
                 break;
             }
+            // Login username
             case 2:{
+                if(command === '' || !usernameRegex.test(command)){
+                    consoleResponse = 'Invalid username. Must be at least 6 characters long.';
+                } else {
+                    setUserData({username: command, password: ''});
+                    setIsGivingCredentials({step: 3});
+                    setLabelInputContent("password: ");
+                }
+                break;
+            }
 
+            // Login password
+            case 3:{
+                if(command === '' || !passwordRegex.test(command)){
+                    consoleResponse = 'Invalid password. Must be at least 6 characters long.';
+                } else {
+                    setUserData(prev => ({username: prev.username, password: command}));
+
+                    try {
+                        await loginUser({username: userData.username, password: command});
+                        consoleResponse = `Successfully logged in, ${userData.username}!`;
+                    } catch (error){
+                        consoleResponse = 'Login error: ' + error.message;
+                        setUserData({username: '', password: ''});
+                    }
+                    setIsGivingCredentials(null);
+                    setLabelInputContent("C:\\WINDOWS>");
+                }
                 break;
             }
             default:{
@@ -117,7 +194,12 @@ export default function MSDOSConsole(){
         }
 
         setConsoleContent(prevContent => {
-            const usedCommand = labelInputRef.current.textContent + ' ' + command;
+            let usedCommand = labelInputRef.current.textContent + ' ' + command;
+
+            if(isGivingCredentials.step === 1 || isGivingCredentials.step === 3){
+                usedCommand = labelInputRef.current.textContent + ' ' + '*'.repeat(command.length);
+            }
+
             const newTextContent = [
                 ...prevContent,
                 usedCommand,
@@ -134,32 +216,11 @@ export default function MSDOSConsole(){
         handleCaretPosition();
     }
 
-    const registerUser = async (userData) => {
-        const response = await fetch('https://w95simulator.rf.gd/api/users/setUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData)
-        });
-
-        if(!response.ok){
-            throw new Error('Failed to connect');
-        }
-
-        if(!response.success){
-            throw new Error('username already exists, try another one');
-        }
-
-        const data = await response.json();
-        return data;
-    }
-
     const handleKeyDown = (e) => {
         switch(e.key){
             case 'Enter':
-                if(isRegistering){
-                    handleRegister(isRegistering.step);
+                if(isGivingCredentials){
+                    handleCredentials(isGivingCredentials.step);
                 } else {
                     executeCommand();
                 }

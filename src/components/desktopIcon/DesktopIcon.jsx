@@ -11,13 +11,13 @@ export default function DesktopIcon({imgSrc, imgHeight, programName, isSelected,
             <div>
                 <div className={`desktop-icon-image-container ${isSelected ? 'icon-clicked' : ''}`}>
                     <img 
-                        src={`src/assets/${imgSrc}`} 
+                        src={`/assets/${imgSrc}`} 
                         height={imgHeight} 
                     />
                 </div>
                 {isShortcut && (
                     <div className='shortcut-icon-container'>
-                        <img src='src/assets/shortcut.png' alt="" height={"12px"}/>
+                        <img src='/assets/shortcut.png' alt="" height={"12px"}/>
                     </div>
                 )}
 

@@ -124,7 +124,7 @@ export default function OpenWindow({
                 ref={headerRef}
             >
                 <div className="openWindow-title-logo">
-                    <img src={`src/assets/${imgSrc}`} alt="" height={imgHeight} />
+                    <img src={`/assets/${imgSrc}`} alt="" height={imgHeight} />
                     <p>{windowName}</p>
                 </div>
             

@@ -14,7 +14,7 @@ export default function TaskBar({children, onOpenPopup}){
         <footer>
             <div className="tasks-container">
                 <div className={`start-btn ${activeStartMenu ? 'btn-selected' : ''}`} onClick={() => handleStartMenuVisibility()}>
-                    <img src="src/assets/start.png" height={"18px"} className="start-icon" ></img>
+                    <img src="/assets/start.png" height={"18px"} className="start-icon" ></img>
                 </div>
                 {children}
             </div>

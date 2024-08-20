@@ -29,7 +29,7 @@ export default function W95LoadingCursor(){
     return (
         
         <img
-            src="src/assets/loadingcursor.png"
+            src="/assets/loadingcursor.png"
             alt="Cursor"
             style={{
                 position:'fixed',

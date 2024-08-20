@@ -15,7 +15,7 @@ export default function Shutdown({onShutdown, onNo}){
     return (
         <div className='shutdown-popup'>
             <div className='shutdown-icon-container'>
-                <img src="src/assets/shutdown2.png" alt="shutdown" />
+                <img src="/assets/shutdown2.png" alt="shutdown" />
             </div>
 
             <div className='shutdown-options'>

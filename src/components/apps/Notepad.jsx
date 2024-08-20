@@ -56,7 +56,8 @@ export default function Notepad(){
 '-..-'|   ||   |
 '-..-'|_.-''-._|
 
-I hope you enjoy it.
+Give me a star on github if you enjoyed it :)
+https://github.com/nicofpalma
 `;
 
     return (
