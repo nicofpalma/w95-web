@@ -16,6 +16,7 @@
     width: 50px;
     margin: 0;
     font-size: 13px;
+    background-color: var(--win95-backround-color);
 }
 
 .desktop-file.icon-clicked p{

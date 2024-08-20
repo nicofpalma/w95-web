@@ -56,10 +56,7 @@ export default function Notepad(){
 '-..-'|   ||   |
 '-..-'|_.-''-._|
 
-I'm a backend developer and I created this application 
-to learn more about React, as I also have some frontend knowledge. 
-I hope you enjoy it—I've tried to make it as close
-to Windows 95 as possible :)
+I hope you enjoy it.
 `;
 
     return (

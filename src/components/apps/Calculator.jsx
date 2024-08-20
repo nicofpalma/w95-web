@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import WindowTools from '../openWindow/WindowTools';
 import './Calculator.css';
 import ToolMenu from './ToolMenu';
@@ -22,16 +22,22 @@ export default function Calculator(){
     // 13 chars max
     const handleConcatValue = (value) => {
         if(operatorInUse === null){
-            setActualValue(prev => {
-                let actualValue = '';
-                actualValue = prev + value;
-    
-                if(actualValue.charAt(0) === '0'){
-                    actualValue = actualValue.slice(1);
-                }
-    
-                return actualValue;
-            });
+            if(typeof actualValue === "number"){
+                setActualValue(value);
+                setLastValue('0');
+                setLastOperatorInUse(null);
+            } else {
+                setActualValue(prev => {
+                    let actualValue = '';
+                    actualValue = prev + value;
+        
+                    if(actualValue.charAt(0) === '0'){
+                        actualValue = actualValue.slice(1);
+                    }
+        
+                    return actualValue;
+                });
+            }
         } else {
             setLastOperatorInUse(operatorInUse);
             setOperatorInUse(null);
@@ -56,6 +62,9 @@ export default function Calculator(){
                 case '/':
                     operationValue = parseFloat(lastValue) / parseFloat(actualValue);
                     break;
+                case '+/-':
+
+                    break;
                 default: 
                     break;
             }
@@ -75,7 +84,7 @@ export default function Calculator(){
     const handleOption = (option) => {
         switch(option){
             case 'Back':{
-                setActualValue()
+                setActualValue(prev => prev.slice(0, -1) || '0');
                 break;
             }
             case 'CE':{
@@ -108,6 +117,11 @@ export default function Calculator(){
             {text: 'About Calculator', enabled: true}
         ]}
     ];
+
+    useEffect(() => {
+        console.table({lastValue: lastValue, actualValue: actualValue, lastOperatorInUse: lastOperatorInUse, operatorInUse: operatorInUse
+        });
+    });
 
     return (
         

@@ -210,10 +210,30 @@
     border-top: 3px solid black;
 }
 
+.openWindow-btn.disabled div{
+    border-top: 2px solid black;
+    border-color: rgb(119, 119, 119);
+    border-style: solid;
+    outline: red;
+    box-shadow: inset 0.5px 0.5px 0 #7f7f7f, inset -0.5px -0.5px 0px #ffffff;
+}
+
+/* .openWindow-maximize-icon.disabled:active .openWindow-btn div{
+    box-shadow: none !important;
+} */
+
 /* Maximize and minimize active effect*/
 .openWindow-btn:active div{
     margin-left: 1px;
     margin-top: 1px;
+}
+
+.openWindow-btn:active.disabled{
+    box-shadow: none;
+}
+.openWindow-btn:active.disabled div{
+    margin-left: 0px;
+    margin-top: 0px;
 }
 
 .openWindow-minimize-icon{

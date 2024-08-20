@@ -4,6 +4,13 @@
     height: 93%;
     width: 200px;
     display: flex;
+
+    min-width: 10px;
+    max-width: 200px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+
     gap: 6px;
     align-items: center;
     box-shadow: inset 1.5px 1.5px 1.5px #000000, var(--btn-inverted-box-inner-shadow2); 
@@ -18,6 +25,12 @@
     letter-spacing: 1px;
     color:black;
     font-weight: bold;
+}
+
+.program-task p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .program-task.minimized{

@@ -11,7 +11,8 @@ import { useState } from 'react';
 import Popup from './components/openWindow/Popup.jsx';
 import Shutdown from './components/apps/Shutdown.jsx';
 import Calculator from './components/apps/Calculator.jsx';
-import W95Cursor from './components/cursor/W95Cursor.jsx';
+import W95LoadingCursor from './components/cursor/W95LoadingCursor.jsx';
+import DesktopProperties from './components/apps/DesktopProperties.jsx';
 
 const componentMap = {
   MSDOSConsole,
@@ -83,6 +84,7 @@ function App() {
       programName: 'Calculator', 
       elementAssoc: 'Calculator',
       showMaximize: false,
+      showDisabledMaximize: true,
       resizable: false,
       isShortcut: true,
       customDimentions: [310, 300]
@@ -124,6 +126,7 @@ function App() {
         content: ComponentToRender ? <ComponentToRender /> : null,
         isMinimized: false,
         showMaximize: icons[index].showMaximize,
+        showDisabledMaximize: icons[index].showDisabledMaximize,
         resizable: icons[index].resizable,
         customDimentions: icons[index].customDimentions ? icons[index].customDimentions : [0, 0],
         customBackground: icons[index].customBackground
@@ -292,8 +295,25 @@ function App() {
 
   return (
     <>
+
+    {/* <OpenWindow
+      key={-2}
+      id={-2}
+      windowName={'Display Properties'}
+      showMaximize={false}
+      showMinimize={false}
+      resizable={false}
+      isFocused={true}
+      customDimentions={[500, 450]}
+    >
+      <DesktopProperties>
+
+      </DesktopProperties>
+    </OpenWindow> */}
+
+
     {isLoading && (
-      <W95Cursor/>
+      <W95LoadingCursor/>
     )}
     
     <div className={isShuttingDown ? 'shutting-down' : ''}>
@@ -348,9 +368,11 @@ function App() {
             onClose={() => handleCloseWindow(window.id)}
             onFocus={() => setFocusedWindowId(window.id)}
             showMaximize={window.showMaximize}
+            showDisabledMaximize={window.showDisabledMaximize}
             resizable={window.resizable}
             customDimentions={window.customDimentions}
             customBackground={window.customBackground}
+        
           >
             {window.content}
           </OpenWindow>

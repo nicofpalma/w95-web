@@ -16,6 +16,7 @@ export default function OpenWindow({
     children,
     showMinimize = true,
     showMaximize = true,
+    showDisabledMaximize = false,
     popup = false,
     resizable = true,
     customDimentions = [0, 0],
@@ -150,6 +151,18 @@ export default function OpenWindow({
                             <div className='openWindow-maximize-icon' id="maximize"></div>
                         </div>
                     )}
+
+                    
+                    {showDisabledMaximize && (
+                        <div 
+                            className="openWindow-btn disabled" 
+                            title="Maximize" 
+                            onMouseDown={(e) => e.stopPropagation()} 
+                        >
+                            <div className='openWindow-maximize-icon' id="maximize"></div>
+                        </div>
+                    )}
+
                     <div 
                         className="openWindow-btn" 
                         id="close" 

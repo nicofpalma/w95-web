@@ -3,6 +3,7 @@
     height: 100%;
     background-color: var(--main-grey-color);
     position: relative;
+    user-select: none;
 }
 
 .calc-items-container{

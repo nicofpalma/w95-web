@@ -8,6 +8,9 @@ export default function MSDOSConsole(){
     const textRenderRef = useRef(null);
     const caret = useRef(null);
     const labelInputRef = useRef(null);
+    const [labelInputContent, setLabelInputContent] = useState("C:\\WINDOWS>");
+    const [isRegistering, setIsRegistering] = useState(null);
+    const [userData, setUserData] = useState({username: '', password: ''});
 
     const [consoleContent, setConsoleContent] = useState([]);
 
@@ -15,6 +18,7 @@ export default function MSDOSConsole(){
         const inputElement = inputRef.current;
         let consoleResponse = '';
         const command = inputElement.value.trim().toLowerCase();
+
         switch(command){
             case 'cls': {
                 setConsoleContent([]);
@@ -28,12 +32,18 @@ export default function MSDOSConsole(){
                 consoleResponse = 'nichel.dev';
                 break;
             }
+            case 'register': {
+                consoleResponse = 'Hi. You have entered the register command. You can enter a username and password that identifies you, and then log in.';
+                setLabelInputContent("username: ");
+                setIsRegistering({step: 0});
+                break;
+            }
             default:{
                 consoleResponse = 'Bad command or file name';
                 break;
             }
         }
-
+    
         // Submit the used command to the consoleContent if command is different to cls
         if(command !== 'cls'){
             setConsoleContent(prevContent => {
@@ -64,10 +74,95 @@ export default function MSDOSConsole(){
         handleCaretPosition();
     };
 
+    const handleRegister = async (step) => {
+        const inputElement = inputRef.current;
+        let consoleResponse = '';
+        const command = inputElement.value.trim().toLowerCase();
+
+        switch(step){
+            case 0:{
+                if(command === ''){
+                    consoleResponse = 'Invalid username';
+                } else {
+                    setUserData({username: command, password: ''});
+                    setIsRegistering({step: 1});
+                    setLabelInputContent("password: ");
+                }
+                break;
+            }
+            case 1:{
+                if(command === ''){
+                    consoleResponse = 'Invalid password';
+                } else {
+                    setUserData(prev => ({username: prev.username, password: command}));                   
+                    
+                    try {
+                        await registerUser({username: userData.username, password: command});
+                        consoleResponse = 'Registration successful!'
+                    } catch (error){
+                        consoleResponse = 'Error registering user: ' + error.message;
+                    }
+                    setIsRegistering(null);
+                    setLabelInputContent("C:\\WINDOWS>");
+                }
+                break;
+            }
+            case 2:{
+
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+
+        setConsoleContent(prevContent => {
+            const usedCommand = labelInputRef.current.textContent + ' ' + command;
+            const newTextContent = [
+                ...prevContent,
+                usedCommand,
+            ];
+
+            if(consoleResponse !== ''){
+                newTextContent.push(consoleResponse);
+            }
+        
+            return newTextContent;
+        });
+
+        inputElement.value = '';
+        handleCaretPosition();
+    }
+
+    const registerUser = async (userData) => {
+        const response = await fetch('https://w95simulator.rf.gd/api/users/setUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if(!response.ok){
+            throw new Error('Failed to connect');
+        }
+
+        if(!response.success){
+            throw new Error('username already exists, try another one');
+        }
+
+        const data = await response.json();
+        return data;
+    }
+
     const handleKeyDown = (e) => {
         switch(e.key){
             case 'Enter':
-                executeCommand();
+                if(isRegistering){
+                    handleRegister(isRegistering.step);
+                } else {
+                    executeCommand();
+                }
                 break;
             default: 
                 break;
@@ -106,7 +201,7 @@ export default function MSDOSConsole(){
                 ))}
             </div>
             <span id="console-input-span" ref={inputSpanRef}>
-                <label htmlFor="console-input" className="console-label" ref={labelInputRef}>{"C:\\WINDOWS>"}</label>
+                <label htmlFor="console-input" className="console-label" ref={labelInputRef}> {labelInputContent}</label>
                 <span className="text-render" id="text-render" ref={textRenderRef}></span>
                 <input 
                     type="text" 

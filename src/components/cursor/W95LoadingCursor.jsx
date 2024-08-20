@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function W95Cursor(){
+export default function W95LoadingCursor(){
     const [position, setPosition] = useState({x: 0, y: 0});
 
     useEffect(() => {

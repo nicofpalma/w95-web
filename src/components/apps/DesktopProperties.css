@@ -1,0 +1,28 @@
+.desktop-properties{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.desktop-properties-main{
+    display: flex;
+    position: relative;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2);
+    width: 95%;
+    height: 85%;
+    background-color: var(--main-grey-color);
+    margin-bottom: 25px;
+}
+
+.desktop-properties-tools{
+    display: flex;
+    width: 50%;
+    height: 6%;
+    position: relative;
+    background-color: var(--main-grey-color);
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2);
+    border-radius: 30% 30% 10%;
+}

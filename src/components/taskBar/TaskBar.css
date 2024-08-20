@@ -1,9 +1,13 @@
 footer{
     z-index: 999;
+    display: flex;
+    align-items: center;
 }
 
 .tasks-container{
     position: relative;
+    flex: 1;
+    overflow: hidden;
     display: inline-flex;
     gap: 10px;
     user-select: none;
@@ -46,4 +50,8 @@ footer{
     outline-offset: -4px;
     padding-top: 1px;
     padding-left: 1px;
+}
+
+.tasks-container + .time-widget{
+    margin-left: 50px;
 }
