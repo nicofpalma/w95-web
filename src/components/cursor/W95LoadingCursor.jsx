@@ -18,7 +18,7 @@ export default function W95LoadingCursor(){
  
         window.addEventListener('mousemove', updateCursorPosition);
         document.body.style.cursor = 'none'; 
-         
+
 
         return () => {
             window.removeEventListener('mousemove', updateCursorPosition);

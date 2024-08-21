@@ -20,7 +20,7 @@
 
 :root {
   --main-grey-color: #c0c1c1;
-  --win95-backround-color: #008080;
+  --win95-background-color: #008080;
   --win95-blue-color: #010180;
   --inactive-window: #808080;
   --tool-window: #7f7f7f;
@@ -83,7 +83,7 @@ html, body {
 }
 
 body {
-  background-color: var(--win95-backround-color); /* Fondo verde azulado */
+  background-color: var(--win95-background-color); /* Fondo verde azulado */
   
   
 }

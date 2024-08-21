@@ -296,7 +296,7 @@ function App() {
   return (
     <>
 
-    {/* <OpenWindow
+    <OpenWindow
       key={-2}
       id={-2}
       windowName={'Display Properties'}
@@ -309,7 +309,7 @@ function App() {
       <DesktopProperties>
 
       </DesktopProperties>
-    </OpenWindow> */}
+    </OpenWindow>
 
 
     {isLoading && (

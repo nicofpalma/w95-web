@@ -5,24 +5,113 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+
+.desktop-properties-tools-container {
+    display: flex;
+    width: 100%;
+    position: relative;
+    margin-bottom: -2px; 
+    left: 11px;
+}
+
+.desktop-properties-tools {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 25px;
+    padding: 5px 10px;
+    background-color: var(--main-grey-color);
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2);
+    border-radius: 8% 5% 0 0;
+    font-family: 'Windows Regular';
+    font-size: 14px;
+    color: black;
+    z-index: 1;
+}
+
+.desktop-properties-tools.tool-selected {
+    box-shadow: inset 1px 1px 1px #ffffff;
+    z-index: 2;
+}
+
+
+/* Bottom buttons container Yes, No, Apply */
+.properties-action-btns{
+    position: relative;
+    display: flex;
+    align-items: end;    
+    justify-content: flex-end;
+    width: 60%;
+    height: 40px;
+    gap: 8px;
+    left: 78px;
+    bottom: 4px;
+}
+
+/* Buttons: Yes, No, Help */
+.properties-action-btns button{
+    width: 100%;
+    height: 25px;
+    background-color: var(--main-grey-color);
+    border: none;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 1px solid #272727;
+    border-right: 1px solid #272727;
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow);
+}
+
+.properties-action-btns button:active{
+    border:none;
+    border-top: 1px inset #272727;
+    border-left: 1px inset #272727;
+    border-bottom: 1px inset white;
+    border-right: 1px inset white;
+    box-shadow: var(--btn-inverted-box-inner-shadow1), var(--btn-inverted-box-inner-shadow2);
 }
 
 .desktop-properties-main{
     display: flex;
     position: relative;
-    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2);
+    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2), var(--btn-box-outer-shadow);
     width: 95%;
     height: 85%;
     background-color: var(--main-grey-color);
-    margin-bottom: 25px;
+    z-index: 1;
 }
 
-.desktop-properties-tools{
-    display: flex;
-    width: 50%;
-    height: 6%;
+
+.background-section{
+    width: 100%;
+    height: 100%;
     position: relative;
-    background-color: var(--main-grey-color);
-    box-shadow: var(--btn-box-inner-shadow1), var(--btn-box-inner-shadow2);
-    border-radius: 30% 30% 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pc-img-container{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pc-img{
+    height: 180px;
+    image-rendering: auto;
+    position: relative;
+}
+
+.background-selection{
+    width: 40%;
+    height: 30%;
+    background: var(--win95-background-color);
+    position: absolute;
+    top: 28px;
 }
