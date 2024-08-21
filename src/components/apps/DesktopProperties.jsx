@@ -51,7 +51,7 @@ export default function DesktopProperties(
                             <img className='pc-img' src="assets/pctransparent.png" alt="" />
                         </div>
 
-                        <div className='pattern-wallpaper-selector'>
+                        <div className='selector-container'>
                             <div className='pattern-selector'>
                                 <p>Pattern</p>
                                 <select multiple>
@@ -79,23 +79,23 @@ export default function DesktopProperties(
                                 <p>Wallpaper</p>
                                 <select multiple>
                                     <option value="none">(None)</option>
-                                    <option value="bricks">Black Thatch</option>
-                                    <option value="buttons">Blue Rivets</option>
-                                    <option value="cargoNet">Bubbles</option>
-                                    <option value="circuits">Circles</option>
-                                    <option value="cobblestones">Clouds</option>
-                                    <option value="daisies">Forest</option>
-                                    <option value="dizzy">Gold Weave</option>
-                                    <option value="key">Houndstooth</option>
-                                    <option value="liveWire">Pinstripe</option>
-                                    <option value="Plaid">Red Blocks</option>
-                                    <option value="rounder">Sandstone</option>
-                                    <option value="scales">Setup</option>
-                                    <option value="stone">Stitches</option>
-                                    <option value="tile">Straw Mat</option>
-                                    <option value="triangles">Tiles</option>
+                                    <option value="blackThatch">Black Thatch</option>
+                                    <option value="blueRivets">Blue Rivets</option>
+                                    <option value="bubbles">Bubbles</option>
+                                    <option value="circles">Circles</option>
+                                    <option value="clouds">Clouds</option>
+                                    <option value="forest">Forest</option>
+                                    <option value="goldWeave">Gold Weave</option>
+                                    <option value="houndstooth">Houndstooth</option>
+                                    <option value="pinstripe">Pinstripe</option>
+                                    <option value="redBlocks">Red Blocks</option>
+                                    <option value="sandstone">Sandstone</option>
+                                    <option value="setup">Setup</option>
+                                    <option value="stitches">Stitches</option>
+                                    <option value="strawMat">Straw Mat</option>
+                                    <option value="tiles">Tiles</option>
                                     <option value="triangles">Triangles</option>
-                                    <option value="triangles">Waves</option>
+                                    <option value="waves">Waves</option>
                                 </select>
                             </div>
                         </div>
